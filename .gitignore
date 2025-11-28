@@ -1,7 +1,8 @@
 build/
-install/
-lib/
 third_party/
+datas/
+install/
+tmp/
 
 # Prerequisites
 *.d

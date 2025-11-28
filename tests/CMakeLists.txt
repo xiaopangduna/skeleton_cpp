@@ -6,6 +6,7 @@ add_executable(calculator_test
 
 target_link_libraries(calculator_test PRIVATE
     skeleton_cpp
+    gtest_main
 )
 
 enable_testing()
