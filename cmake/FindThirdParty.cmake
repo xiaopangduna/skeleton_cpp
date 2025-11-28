@@ -11,7 +11,5 @@
 
 # 查找所有第三方依赖
 macro(find_all_third_party_dependencies)
-  # 查找Google Test
-  include(FindGTest)
-  find_googletest()
+  # 主库不需要第三方依赖
 endmacro()

@@ -9,12 +9,6 @@ if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/install" CACHE PATH "Default install path" FORCE)
 endif()
 
-# 添加cmake模块路径
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-# 包含并初始化第三方库管理模块
-include(FindThirdParty)
-find_all_third_party_dependencies()
 
 # 定义核心库
 add_library(skeleton_cpp
@@ -34,10 +28,10 @@ set_target_properties(skeleton_cpp PROPERTIES
 
 # 添加子目录
 add_subdirectory(apps)
+add_subdirectory(tests)
 
 # 启用测试
 enable_testing()
-add_subdirectory(tests)
 
 # 安装库目标
 install(TARGETS skeleton_cpp
