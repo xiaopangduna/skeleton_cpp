@@ -1,53 +1,36 @@
 cmake_minimum_required(VERSION 3.10)
-project(CppSkeletonProject VERSION 0.0.1 LANGUAGES CXX)
+project(skeleton_cpp VERSION 1.0.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# 添加第三方库搜索路径
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_SOURCE_DIR}/third_party/opencv")
+# 添加子目录
+add_subdirectory(tests)
+add_subdirectory(apps)
 
-# 查找第三方库
-# find_package(OpenCV REQUIRED)
+# 创建库
+add_library(skeleton_cpp
+    src/calculator/Calculator.cpp
+)
 
+target_include_directories(skeleton_cpp PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
 
-# 2. 判断是否是 Catkin 环境
-if(DEFINED ENV{CATKIN_DEVEL_PREFIX})
-    message(STATUS "Detected Catkin build environment")
+# 设置标准安装规则
+install(TARGETS skeleton_cpp
+    EXPORT skeleton_cppTargets
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
+)
 
-    find_package(catkin REQUIRED COMPONENTS roscpp)
+install(DIRECTORY include/ DESTINATION include)
 
-    # 可选：查找其他库
-    find_package(OpenCV REQUIRED)
-
-    # 设置 catkin_package 导出
-    catkin_package(
-        INCLUDE_DIRS src/include
-        LIBRARIES my_library
-        CATKIN_DEPENDS roscpp
-        DEPENDS OpenCV
-    )
-
-    include_directories(
-        ${catkin_INCLUDE_DIRS}
-        ${OpenCV_INCLUDE_DIRS}
-        src/include
-    )
-
-else()
-    message(STATUS "Using standard CMake build")
-
-    find_package(OpenCV REQUIRED)
-
-    include_directories(
-        ${OpenCV_INCLUDE_DIRS}
-        src/include
-    )
-endif()
-
-
-# 添加子项目库
-add_subdirectory(lib/subproject)
-
-# 添加主项目源码
-add_subdirectory(src)
+install(EXPORT skeleton_cppTargets
+    FILE skeleton_cppConfig.cmake
+    NAMESPACE skeleton_cpp::
+    DESTINATION lib/cmake/skeleton_cpp
+)
