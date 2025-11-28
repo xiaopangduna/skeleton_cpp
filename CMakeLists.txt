@@ -4,6 +4,11 @@ project(skeleton_cpp VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# 设置默认安装路径为项目内的install目录
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+  set(CMAKE_INSTALL_PREFIX "${CMAKE_CURRENT_SOURCE_DIR}/install" CACHE PATH "Default install path" FORCE)
+endif()
+
 # 添加cmake模块路径
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
@@ -28,8 +33,11 @@ set_target_properties(skeleton_cpp PROPERTIES
 )
 
 # 添加子目录
-add_subdirectory(tests)
 add_subdirectory(apps)
+
+# 启用测试
+enable_testing()
+add_subdirectory(tests)
 
 # 安装库目标
 install(TARGETS skeleton_cpp

@@ -31,9 +31,6 @@ endfunction()
 
 # 使用函数创建测试
 create_test(calculator_test calculator_test.cpp)
-
-# 如果有更多测试文件，可以这样添加：
-# create_test(another_test another_test.cpp)
-# create_test(third_test third_test.cpp)
+create_test(subtract_test subtract_test.cpp)
 
 enable_testing()
