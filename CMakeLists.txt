@@ -8,8 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # 包含并初始化第三方库管理模块
-include(FindGTest)
-find_googletest()
+include(FindThirdParty)
+find_all_third_party_dependencies()
 
 # 添加子目录
 add_subdirectory(tests)

@@ -1,4 +1,9 @@
-# FindGTest.cmake - 管理Google Test库
+# FindGTest.cmake - 向后兼容的Google Test库查找模块
+
+# 为了向后兼容，包含新的第三方依赖管理模块
+if(NOT COMMAND find_googletest)
+  include(FindThirdParty)
+endif()
 
 # 查找并配置Google Test
 macro(find_googletest)
