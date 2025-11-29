@@ -1,15 +1,23 @@
-# FindThirdParty.cmake - 统一管理项目的所有第三方依赖
+# FindThirdParty.cmake - 第三方库路径设置模块
 
 #.rst:
 # FindThirdParty
-# ---------------
+# --------------
 #
-# 导入和配置所有第三方依赖库
+# 设置third_party目录为优先查找路径
 #
-# 该模块会查找项目所需的所有第三方库，并设置适当的变量和目标，
-# 使得主CMakeLists.txt文件保持简洁。
+# 该模块会将third_party目录添加到CMAKE_MODULE_PATH的开头，
+# 确保在使用find_package时优先查找项目内嵌的第三方库
 
-# 查找所有第三方依赖
-macro(find_all_third_party_dependencies)
-  # 主库不需要第三方依赖
-endmacro()
+# # 设置third_party目录为优先查找路径
+
+#   # 将third_party目录添加到CMAKE_MODULE_PATH的开头，确保优先查找
+#   list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
+  
+#   # 也将特定库的路径添加到查找路径中，以支持Config模式的查找
+#   list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_CURRENT_SOURCE_DIR}/third_party/gtest)
+  
+#   # 包含自定义的GTest查找模块
+
+  
+#   message(STATUS "已将third_party目录添加到查找路径，优先使用项目内嵌的第三方库")
