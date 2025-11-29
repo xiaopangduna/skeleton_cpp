@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 3.10)
 
 # 定义项目名称
@@ -23,6 +22,9 @@ include_directories(include)
 add_library(skeleton_cpp STATIC
     src/calculator/Calculator.cpp
 )
+
+# 链接OpenCV库到我们的库
+target_link_libraries(skeleton_cpp PRIVATE ${OpenCV_LIBS})
 
 # 设置库的包含目录
 target_include_directories(skeleton_cpp PUBLIC
