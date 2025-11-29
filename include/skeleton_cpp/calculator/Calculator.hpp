@@ -1,5 +1,4 @@
-#ifndef SKELETON_CPP_CALCULATOR_CALCULATOR_HPP
-#define SKELETON_CPP_CALCULATOR_CALCULATOR_HPP
+#pragma once
 
 namespace skeleton_cpp {
 namespace calculator {
@@ -26,4 +25,3 @@ public:
 } // namespace calculator
 } // namespace skeleton_cpp
 
-#endif // SKELETON_CPP_CALCULATOR_CALCULATOR_HPP

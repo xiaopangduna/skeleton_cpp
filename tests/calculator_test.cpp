@@ -16,7 +16,7 @@ TEST(CalculatorTest, AddPositiveAndNegativeNumbers) {
     EXPECT_DOUBLE_EQ(skeleton_cpp::calculator::Calculator::add(5.0, -3.0), 2.0);
 }
 
-// 测试小数相加
+// 测试小数相加 
 TEST(CalculatorTest, AddDecimals) {
     EXPECT_DOUBLE_EQ(skeleton_cpp::calculator::Calculator::add(1.5, 2.5), 4.0);
 }
