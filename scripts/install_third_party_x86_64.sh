@@ -1,8 +1,10 @@
 git clone https://github.com/google/googletest.git -b v1.14.0
+git clone https://gitee.com/mirrors/googletest.git -b v1.14.0
+cd googletest/
 mkdir build && cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=../  # 安装到系统目录
+cmake -DCMAKE_INSTALL_PREFIX=../../../third_party/x86_64/gtest/ .. 
 make -j4
-sudo make install
+make install
 
 
 git clone https://gitee.com/opencv/opencv.git
@@ -19,7 +21,11 @@ cd ..
 cd opencv
 mkdir build && cd build
 cmake -D CMAKE_BUILD_TYPE=Release \
-      -D CMAKE_INSTALL_PREFIX=../../../third_party/opencv \
+      -D CMAKE_INSTALL_PREFIX=../../../third_party/x86_64/opencv \
       -D OPENCV_DOWNLOAD_PATH=../../opencv_cache ..
 make -j4
 make install
+
+
+# 安装交叉编译工具链
+sudo apt install gcc-aarch64-linux-gnu g++-aarch64-linux-gnu

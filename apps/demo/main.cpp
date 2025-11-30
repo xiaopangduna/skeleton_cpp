@@ -5,7 +5,7 @@ int main() {
     std::cout << "OpenCV version: " << CV_VERSION << std::endl;
     
     // 图像路径
-    std::string imagePath = "/home/xiaopangdun/project/skeleton_cpp/tmp/00150526.jpg";
+    std::string imagePath = "/home/xiaopangdun/project/skeleton_cpp/tmp/BDD100k_00001.jpg";
     
     // 读取图像
     cv::Mat image = cv::imread(imagePath);
