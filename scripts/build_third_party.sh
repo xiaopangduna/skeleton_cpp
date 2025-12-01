@@ -67,6 +67,7 @@ esac
 
 # 创建平台对应的第三方库目录
 mkdir -p ${PROJECT_ROOT}/third_party/${PLATFORM}
+mkdir -p ${PROJECT_ROOT}/tmp
 INSTALL_DIR=${PROJECT_ROOT}/third_party/${PLATFORM}
 
 echo "开始为${PLATFORM}平台编译第三方库..."
@@ -146,8 +147,9 @@ fi
 if [ "$BUILD_OPENCV" = "yes" ]; then
     echo "开始编译OpenCV..."
     cd ${PROJECT_ROOT}/tmp
-    git clone https://gitee.com/opencv/opencv.git -b v4.10.0
+    git clone https://gitee.com/opencv/opencv.git
     cd ${PROJECT_ROOT}/tmp/opencv
+    git checkout 4.10.0
     rm -rf build_${PLATFORM}
     mkdir -p build_${PLATFORM} && cd build_${PLATFORM}
 
