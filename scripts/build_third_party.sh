@@ -67,9 +67,8 @@ case "${PLATFORM}" in
 esac
 
 # 创建平台对应的第三方库目录
-mkdir -p ${PROJECT_ROOT}/third_party/${PLATFORM}
 mkdir -p ${PROJECT_ROOT}/tmp
-INSTALL_DIR=${PROJECT_ROOT}/third_party/${PLATFORM}
+INSTALL_DIR=${PROJECT_ROOT}/third_party/
 
 echo "开始为${PLATFORM}平台编译第三方库..."
 echo "安装目录: $INSTALL_DIR"
@@ -126,15 +125,15 @@ fi
 if [ "$BUILD_GTEST" = "yes" ]; then
     echo "开始编译GTest..."
     cd ${PROJECT_ROOT}/tmp
-    git clone https://gitee.com/mirrors/googletest.git -b v1.14.0
+    # git clone https://gitee.com/mirrors/googletest.git -b v1.14.0
     cd ${PROJECT_ROOT}/tmp/googletest
     rm -rf build_${PLATFORM}
     mkdir -p build_${PLATFORM} && cd build_${PLATFORM}
 
     cmake .. \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/gtest \
-        -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE}
+        -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/gtest/${PLATFORM} \
+        -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
         
     make -j$(nproc)
     make install
@@ -148,17 +147,18 @@ fi
 if [ "$BUILD_OPENCV" = "yes" ]; then
     echo "开始编译OpenCV..."
     cd ${PROJECT_ROOT}/tmp
-    git clone https://gitee.com/opencv/opencv.git
+    # git clone https://gitee.com/opencv/opencv.git
     cd ${PROJECT_ROOT}/tmp/opencv
-    git checkout 4.10.0
+    # git checkout 4.10.0
     rm -rf build_${PLATFORM}
     mkdir -p build_${PLATFORM} && cd build_${PLATFORM}
 
     cmake .. \
         -DCMAKE_BUILD_TYPE=Release \
-        -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/opencv \
+        -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/opencv/${PLATFORM} \
         -DOPENCV_DOWNLOAD_PATH=../../opencv_${PLATFORM}_cache \
-        -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE}
+        -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
+        -DBUILD_SHARED_LIBS=OFF
 
     make -j4  
 

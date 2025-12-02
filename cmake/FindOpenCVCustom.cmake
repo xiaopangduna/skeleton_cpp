@@ -10,11 +10,6 @@
 
 # 查找并配置OpenCV
 
-# 如果指定了平台特定的OpenCV路径，则优先使用
-if(DEFINED THIRD_PARTY_PLATFORM AND EXISTS "${CMAKE_SOURCE_DIR}/third_party/${THIRD_PARTY_PLATFORM}/opencv")
-    # 将平台特定的OpenCV目录添加到CMAKE_PREFIX_PATH开头，确保优先查找
-    list(INSERT CMAKE_PREFIX_PATH 0 ${CMAKE_SOURCE_DIR}/third_party/${THIRD_PARTY_PLATFORM}/opencv)
-endif()
-
+set(OpenCV_ROOT_DIR ${THIRD_PARTY_DIR}/third_party/opencv/ ${THIRD_PARTY_PLATFORM})
 # 使用find_package查找OpenCV（Config模式）
 find_package(OpenCV REQUIRED)
