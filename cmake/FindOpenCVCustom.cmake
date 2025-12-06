@@ -10,6 +10,7 @@
 
 # 查找并配置OpenCV
 
-set(OpenCV_ROOT_DIR ${THIRD_PARTY_DIR}/third_party/opencv/ ${THIRD_PARTY_PLATFORM})
+set(OpenCV_DIR ${THIRD_PARTY_DIR}/opencv/${THIRD_PARTY_PLATFORM}/lib/cmake/opencv4)
+
 # 使用find_package查找OpenCV（Config模式）
 find_package(OpenCV REQUIRED)

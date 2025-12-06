@@ -10,6 +10,6 @@
 
 # 查找并配置Google Test
 
-set(GTEST_ROOT_DIR ${THIRD_PARTY_DIR}/third_party/gtest/ ${THIRD_PARTY_PLATFORM})
+set(GTEST_ROOT_DIR ${THIRD_PARTY_DIR}/gtest/ ${THIRD_PARTY_PLATFORM})
 # 使用find_package查找GTest（Config模式）
 find_package(GTest REQUIRED)
