@@ -10,6 +10,7 @@
 
 # 查找并配置Google Test
 
-set(GTEST_ROOT_DIR ${THIRD_PARTY_DIR}/gtest/ ${THIRD_PARTY_PLATFORM})
+set(GTest_DIR ${THIRD_PARTY_DIR}/gtest/${THIRD_PARTY_PLATFORM}/lib/cmake/GTest)
+# list(APPEND CMAKE_PREFIX_PATH "${THIRD_PARTY_DIR}/opencv/${THIRD_PARTY_PLATFORM}")
 # 使用find_package查找GTest（Config模式）
 find_package(GTest REQUIRED)
