@@ -125,7 +125,12 @@ fi
 if [ "$BUILD_GTEST" = "yes" ]; then
     echo "开始编译GTest..."
     cd ${PROJECT_ROOT}/tmp
-    # git clone https://gitee.com/mirrors/googletest.git -b v1.14.0
+    # 检查googletest文件夹是否存在，如果存在则跳过git clone
+    if [ ! -d "googletest" ]; then
+        git clone https://gitee.com/mirrors/googletest.git -b v1.14.0
+    else
+        echo "googletest目录已存在，跳过git clone步骤"
+    fi
     cd ${PROJECT_ROOT}/tmp/googletest
     rm -rf build_${PLATFORM}
     mkdir -p build_${PLATFORM} && cd build_${PLATFORM}
@@ -147,9 +152,14 @@ fi
 if [ "$BUILD_OPENCV" = "yes" ]; then
     echo "开始编译OpenCV..."
     cd ${PROJECT_ROOT}/tmp
-    # git clone https://gitee.com/opencv/opencv.git
+    if [ ! -d "opencv" ]; then
+        git clone https://gitee.com/opencv/opencv.git
+        cd ${PROJECT_ROOT}/tmp/opencv
+        git checkout 4.10.0
+    else
+        echo "opencv目录已存在，跳过git clone步骤"
+    fi
     cd ${PROJECT_ROOT}/tmp/opencv
-    # git checkout 4.10.0
     rm -rf build_${PLATFORM}
     mkdir -p build_${PLATFORM} && cd build_${PLATFORM}
 
