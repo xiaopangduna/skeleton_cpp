@@ -17,9 +17,9 @@
     //         "type": "bind"
     //     }
     // ],
-    "workspaceMount": "source=${localWorkspaceFolder}/../../..,target=/workspaces,type=bind",
+    // "workspaceMount": "source=${localWorkspaceFolder}/../../..,target=/workspaces,type=bind",
     // 设置容器启动时默认打开的文件目录
-    "workspaceFolder": "/workspaces/src/indoor_cleaner_nav/ud_ws",
+    // "workspaceFolder": "/workspaces/src/indoor_cleaner_nav/ud_ws",
     "runArgs": [
         "--env=DISPLAY=${env:DISPLAY}",
         "--env=NO_AT_BRIDGE=1",
