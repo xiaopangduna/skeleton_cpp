@@ -1,7 +1,6 @@
 #!/bin/bash
-# bash scripts/build_third_party.sh x86_64 --libs gtest,opencv
-# bash scripts/build_third_party.sh aarch64 --libs gtest,opencv
-# 为不同平台编译第三方库的通用脚本
+# bash scripts/build_third_party.sh x86_64 --libs gtest,opencv,spdlog
+# bash scripts/build_third_party.sh aarch64 --libs gtest,opencv,spdlog
 
 set -e  # 遇到错误时停止执行
 
@@ -19,7 +18,7 @@ while [[ $# -gt 0 ]]; do
             echo "未知选项: $1"
             echo "用法: $0 <platform> [--libs <libraries>]"
             echo "  platform: 目标平台 (aarch64, x86_64)"
-            echo "  libraries: 逗号分隔的库列表 (例如: gtest,opencv)"
+            echo "  libraries: 逗号分隔的库列表 (例如: gtest,opencv,spdlog)"
             echo "             默认构建所有支持的库"
             exit 1
             ;;
@@ -160,7 +159,7 @@ if [ "$BUILD_OPENCV" = "yes" ]; then
     if [ ! -d "opencv" ]; then
         git clone https://gitee.com/opencv/opencv.git
         cd ${PROJECT_ROOT}/tmp/opencv
-        git checkout 4.10.0
+        git checkout 4.2.0
     else
         echo "opencv目录已存在，跳过git clone步骤"
     fi
