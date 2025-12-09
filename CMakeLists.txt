@@ -21,6 +21,7 @@ include_directories(include)
 # 创建库目标
 add_library(skeleton_cpp STATIC
     src/calculator/Calculator.cpp
+    src/utils/logger_factory.cpp
 )
 
 # 链接OpenCV库和spdlog到我们的库（使用PUBLIC以便链接skeleton_cpp的目标也能访问这些依赖）

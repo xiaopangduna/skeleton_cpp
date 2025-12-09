@@ -3,6 +3,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
+#include <skeleton_cpp/utils/logger_factory.h>
 
 int main(int argc, char* argv[]) {
     // 初始化spdlog日志系统
