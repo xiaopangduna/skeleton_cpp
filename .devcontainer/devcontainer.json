@@ -1,11 +1,13 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/cpp
 {
-    "name": "docker_dev",
-    "image": "docker_dev:latest",
-    // "build": {
-    // 	"dockerfile": "Dockerfile"
-    // }
+    "name": "ubuntu_dev:20.04 ",
+    // 指定镜像
+    // "image": "ubuntu_dev:latest", 
+    "build": {
+    	"dockerfile": "Dockerfile",
+        "context": ".."
+    },
     // "mounts": [
     //     {
     //         //将服务器上的插件挂载至容器
@@ -30,6 +32,10 @@
         "DISPLAY": "${localEnv:DISPLAY}",
         "NO_AT_BRIDGE": "1"
 
-    }
+    },
+    // 创建容器后执行
+    "postCreateCommand": "bash .devcontainer/post-create.sh",
+    // 每次启动容器执行
+    "postStartCommand": "bash .devcontainer/post-start.sh"
 
 }
