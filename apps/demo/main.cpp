@@ -4,7 +4,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-int main() {
+int main(int argc, char* argv[]) {
     // 初始化spdlog日志系统
     try {
         // 创建控制台日志记录器
