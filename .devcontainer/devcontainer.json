@@ -43,8 +43,8 @@
                 "twxs.cmake",
                 "ms-vscode.cmake-tools",
                 "ms-vscode.cpptools",
-                "ms-python.python"
-
+                "ms-python.python",
+                "alibaba-cloud.tongyi-lingma"   // 通义编程代理
             ]
         }
     }
