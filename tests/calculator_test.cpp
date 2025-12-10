@@ -17,7 +17,8 @@ class CalculatorAddTest : public ::testing::TestWithParam<std::tuple<double, dou
 TEST_P(CalculatorAddTest, Add)
 {
     auto [a, b, expected] = GetParam();
-    if (GlobalLoggerEnvironment::logger) {
+    if (GlobalLoggerEnvironment::logger)
+    {
         GlobalLoggerEnvironment::logger->info("Testing addition: {} + {} = {}", a, b, expected);
     }
     EXPECT_DOUBLE_EQ(skeleton_cpp::calculator::Calculator::add(a, b), expected);
@@ -39,8 +40,18 @@ INSTANTIATE_TEST_SUITE_P(
 // 简单的调试测试函数，测试加法
 TEST(CalculatorAddDebugTest, DebugAdd)
 {
+    if (GlobalLoggerEnvironment::logger)
+    {
+        GlobalLoggerEnvironment::logger->info("Starting debug addition test");
+    }
+
     double result = skeleton_cpp::calculator::Calculator::add(10.5, 20.3);
     EXPECT_DOUBLE_EQ(result, 30.8);
+
+    if (GlobalLoggerEnvironment::logger)
+    {
+        GlobalLoggerEnvironment::logger->info("Debug addition test completed. Result: {}", result);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +89,48 @@ TEST(CalculatorSubtractDebugTest, DebugSubtract)
     double result = skeleton_cpp::calculator::Calculator::subtract(30.8, 10.5);
     EXPECT_DOUBLE_EQ(result, 20.3);
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// 普通测试夹具示例
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// 普通测试夹具类，可用于测试Calculator类的多个方法
+class CalculatorFixtureTest : public ::testing::Test
+{
+protected:
+    void SetUp() override
+    {
+        calc = new skeleton_cpp::calculator::Calculator();
+        if (GlobalLoggerEnvironment::logger)
+        {
+            GlobalLoggerEnvironment::logger->info("Calculator instance created for test");
+        }
+    }
+
+    void TearDown() override
+    {
+        delete calc;
+        if (GlobalLoggerEnvironment::logger)
+        {
+            GlobalLoggerEnvironment::logger->info("Calculator instance destroyed after test");
+        }
+    }
+
+    skeleton_cpp::calculator::Calculator *calc;
+};
+
+// 使用普通测试夹具测试加法功能
+TEST_F(CalculatorFixtureTest, AddFunctionality)
+{
+    if (GlobalLoggerEnvironment::logger)
+    {
+        GlobalLoggerEnvironment::logger->info("Testing Calculator::add method");
+    }
+
+    EXPECT_DOUBLE_EQ(calc->add(2.0, 3.0), 5.0);
+    EXPECT_DOUBLE_EQ(calc->add(-1.0, 1.0), 0.0);
+    EXPECT_DOUBLE_EQ(calc->add(0.0, 0.0), 0.0);
+};
 
 int main(int argc, char **argv)
 {
