@@ -44,7 +44,7 @@
                 "ms-vscode.cmake-tools",
                 "ms-vscode.cpptools",
                 "ms-python.python",
-                "alibaba-cloud.tongyi-lingma"   // 通义编程代理
+                "Alibaba-Cloud.tongyi-lingma"
             ]
         }
     }

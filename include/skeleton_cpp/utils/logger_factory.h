@@ -2,12 +2,9 @@
 
 #include <memory>
 #include <string>
-
+#include <spdlog/spdlog.h>
 // 前向声明，避免包含 spdlog 头文件到公共接口
-namespace spdlog
-{
-    class logger;
-}
+
 
 namespace skeleton_cpp
 {
