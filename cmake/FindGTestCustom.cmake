@@ -5,7 +5,7 @@
 # 备选方式：将GTest路径添加到CMAKE_PREFIX_PATH中，让CMake自动查找
 list(INSERT CMAKE_PREFIX_PATH 0 "${THIRD_PARTY_DIR}/gtest/${CMAKE_SYSTEM_PROCESSOR}")
 
-# 使用find_package查找GTest（Config模式）
+# 使用find_package查找GTest
 find_package(GTest REQUIRED)
 
 message(STATUS "==============================================================================")

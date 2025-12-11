@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     gdb \
     cmake   
-
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ca-certificates 
 RUN rm -rf /var/lib/apt/lists/*
 #     build-essential \
 #     cmake \
