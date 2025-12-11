@@ -1,9 +1,11 @@
 // src/utils/logger_factory.cpp
-#include "skeleton_cpp/utils/logger_factory.h"
+#include <memory>
+
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/sinks/basic_file_sink.h"
-#include <memory>
+
+#include "skeleton_cpp/utils/logger_factory.hpp"
 
 namespace skeleton_cpp::calculator {
 
