@@ -17,5 +17,6 @@ message(STATUS "THIRD_PARTY_DIR: ${THIRD_PARTY_DIR}")
 # 导入自定义的查找模块
 include(FindOpenCVCustom)
 include(FindSpdlogCustom)
+include(FindYamlCppCustom)
 
 message(STATUS "已完成第三方库配置")

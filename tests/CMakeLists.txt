@@ -20,13 +20,16 @@ function(create_test TEST_NAME)
   # 创建测试可执行文件
   add_executable(${TEST_NAME} ${ARGN})
   
+  # 设置包含目录
+  target_include_directories(${TEST_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+  
   # 链接库
   if(GTest_FOUND)
     if(TARGET GTest::gtest_main)
       # 如果找到了GTest目标，则使用目标链接
       target_link_libraries(${TEST_NAME} PRIVATE
           skeleton_cpp
-          test_utils
+          # test_utils
           GTest::gtest_main)
     else()
       # 否则直接链接库文件
@@ -43,9 +46,13 @@ function(create_test TEST_NAME)
   
   # 添加到测试列表
   add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+    # 设置测试工作目录
+  set_tests_properties(${TEST_NAME} PROPERTIES 
+    WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/.."
+  )
 endfunction()
 
 # 使用函数创建测试
 enable_testing()
 create_test(calculator_test calculator_test.cpp)
-
+create_test(test_utils_yaml utils/test_yaml.cpp)

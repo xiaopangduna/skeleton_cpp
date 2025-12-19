@@ -22,15 +22,17 @@ include_directories(include)
 add_library(skeleton_cpp STATIC
     src/calculator/Calculator.cpp
     src/utils/logger_factory.cpp
+    src/utils/yaml.cpp
 )
 
 # 链接OpenCV库和spdlog到我们的库（使用PUBLIC以便链接skeleton_cpp的目标也能访问这些依赖）
-target_link_libraries(skeleton_cpp PUBLIC ${OpenCV_LIBS} spdlog::spdlog)
+target_link_libraries(skeleton_cpp PUBLIC ${OpenCV_LIBS} spdlog::spdlog ${YAML_CPP_LIBRARIES})
 
 # 设置库的包含目录
 target_include_directories(skeleton_cpp PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
+    ${YAML_CPP_INCLUDE_DIR}
 )
 
 # 安装规则
