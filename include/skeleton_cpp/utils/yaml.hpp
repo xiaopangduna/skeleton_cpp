@@ -1,13 +1,19 @@
 #pragma once
 
+/**
+ * @file yaml.hpp
+ * @brief YAML处理工具函数集合
+ * @details 提供从YAML节点加载矩阵和点云数据的工具函数
+ */
+
 #include <vector>
 #include <string>
 
 #include <type_traits>
 #include <stdexcept>
 
-#include <opencv2/opencv.hpp>
 #include <yaml-cpp/yaml.h>
+#include <opencv2/opencv.hpp>
 
 namespace utils_yaml
 {
@@ -17,72 +23,43 @@ namespace utils_yaml
      * @param node 包含矩阵信息的YAML节点，应包含rows, cols, data字段
      * @param type 数据类型，支持"double"和"int"
      * @return 加载成功的cv::Mat对象
+     * @throws std::runtime_error 当YAML节点格式不正确或数据不匹配时抛出异常
      */
     cv::Mat loadMatrixFromYAML(const YAML::Node &node, const std::string &type = "double");
 
     /// @brief 加载 2D 点列表，支持 cv::Point2f, cv::Point2d, cv::Point2i
+    /// @tparam Point2T 点类型，必须是 cv::Point2f, cv::Point2d, 或 cv::Point2i 之一
+    /// @param node YAML节点，应为序列类型，每个元素为包含[x,y]的序列
+    /// @return 点向量
+    /// @throws std::runtime_error 当YAML节点格式不正确时抛出异常
+    ///
+    /// 使用示例:
+    /// @code
+    /// YAML::Node config = YAML::LoadFile("points.yaml");
+    /// auto points2f = utils_yaml::loadVectorPCPoint2NFromYAML<cv::Point2f>(config["points_2d"]);
+    /// for (const auto& point : points2f) {
+    ///     std::cout << "Point: (" << point.x << ", " << point.y << ")" << std::endl;
+    /// }
+    /// @endcode
     template <typename Point2T>
-    std::vector<Point2T> loadVectorPoint2NFromYAML(const YAML::Node &node)
-    {
-        // 编译期检查：确保是 2D 点
-        static_assert(
-            std::is_same_v<Point2T, cv::Point2f> ||
-                std::is_same_v<Point2T, cv::Point2d> ||
-                std::is_same_v<Point2T, cv::Point2i>,
-            "Point2T must be cv::Point2f, cv::Point2d, or cv::Point2i");
-
-        if (!node.IsDefined() || !node.IsSequence())
-        {
-            throw std::runtime_error("YAML node is not a valid sequence.");
-        }
-
-        using T = typename Point2T::value_type;
-        std::vector<Point2T> points;
-        points.reserve(node.size());
-
-        for (const auto &pt : node)
-        {
-            if (!pt.IsSequence() || pt.size() != 2)
-            {
-                throw std::runtime_error("Each 2D point must be [x, y].");
-            }
-            T x = pt[0].as<T>();
-            T y = pt[1].as<T>();
-            points.emplace_back(x, y);
-        }
-        return points;
-    }
+    std::vector<Point2T> loadVectorCVPoint2NFromYAML(const YAML::Node &node);
 
     /// @brief 加载 3D 点列表，支持 cv::Point3f, cv::Point3d, cv::Point3i
+    /// @tparam Point3T 点类型，必须是 cv::Point3f, cv::Point3d, 或 cv::Point3i 之一
+    /// @param node YAML节点，应为序列类型，每个元素为包含[x,y,z]的序列
+    /// @return 点向量
+    /// @throws std::runtime_error 当YAML节点格式不正确时抛出异常
+    ///
+    /// 使用示例:
+    /// @code
+    /// YAML::Node config = YAML::LoadFile("points.yaml");
+    /// auto points3d = utils_yaml::loadVectorCVPoint3NFromYAML<cv::Point3d>(config["points_3d"]);
+    /// for (const auto& point : points3d) {
+    ///     std::cout << "Point: (" << point.x << ", " << point.y << ", " << point.z << ")" << std::endl;
+    /// }
+    /// @endcode
     template <typename Point3T>
-    std::vector<Point3T> loadVectorPoint3NFromYAML(const YAML::Node &node)
-    {
-        static_assert(
-            std::is_same_v<Point3T, cv::Point3f> ||
-                std::is_same_v<Point3T, cv::Point3d> ||
-                std::is_same_v<Point3T, cv::Point3i>,
-            "Point3T must be cv::Point3f, cv::Point3d, or cv::Point3i");
-
-        if (!node.IsDefined() || !node.IsSequence())
-        {
-            throw std::runtime_error("YAML node is not a valid sequence.");
-        }
-
-        using T = typename Point3T::value_type;
-        std::vector<Point3T> points;
-        points.reserve(node.size());
-
-        for (const auto &pt : node)
-        {
-            if (!pt.IsSequence() || pt.size() != 3)
-            {
-                throw std::runtime_error("Each 3D point must be [x, y, z].");
-            }
-            T x = pt[0].as<T>();
-            T y = pt[1].as<T>();
-            T z = pt[2].as<T>();
-            points.emplace_back(x, y, z);
-        }
-        return points;
-    }
+    std::vector<Point3T> loadVectorCVPoint3NFromYAML(const YAML::Node &node);
 }
+
+#include "yaml.inl"

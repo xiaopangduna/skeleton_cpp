@@ -63,7 +63,7 @@ TEST_F(UtilsYamlTest, LoadMatrixInt)
 
 TEST_F(UtilsYamlTest, LoadVectorPoint2f)
 {
-    std::vector<cv::Point2f> points = loadVectorPoint2NFromYAML<cv::Point2f>(UtilsYamlTest::test_data["points_2d_float"]);
+    std::vector<cv::Point2f> points = loadVectorCVPoint2NFromYAML<cv::Point2f>(UtilsYamlTest::test_data["points_2d_float"]);
 
     ASSERT_EQ(points.size(), 3);
 
@@ -77,7 +77,7 @@ TEST_F(UtilsYamlTest, LoadVectorPoint2f)
 
 TEST_F(UtilsYamlTest, LoadVectorPoint2i)
 {
-    std::vector<cv::Point2i> points = loadVectorPoint2NFromYAML<cv::Point2i>(UtilsYamlTest::test_data["points_2d_int"]);
+    std::vector<cv::Point2i> points = loadVectorCVPoint2NFromYAML<cv::Point2i>(UtilsYamlTest::test_data["points_2d_int"]);
 
     ASSERT_EQ(points.size(), 3);
 
@@ -91,7 +91,7 @@ TEST_F(UtilsYamlTest, LoadVectorPoint2i)
 
 TEST_F(UtilsYamlTest, LoadVectorPoint3d)
 {
-    std::vector<cv::Point3d> points = loadVectorPoint3NFromYAML<cv::Point3d>(UtilsYamlTest::test_data["points_3d_double"]);
+    std::vector<cv::Point3d> points = loadVectorCVPoint3NFromYAML<cv::Point3d>(UtilsYamlTest::test_data["points_3d_double"]);
 
     ASSERT_EQ(points.size(), 3);
 
@@ -108,7 +108,7 @@ TEST_F(UtilsYamlTest, LoadVectorPoint3d)
 
 TEST_F(UtilsYamlTest, LoadVectorPoint3i)
 {
-    std::vector<cv::Point3i> points = loadVectorPoint3NFromYAML<cv::Point3i>(UtilsYamlTest::test_data["points_3d_int"]);
+    std::vector<cv::Point3i> points = loadVectorCVPoint3NFromYAML<cv::Point3i>(UtilsYamlTest::test_data["points_3d_int"]);
 
     ASSERT_EQ(points.size(), 3);
 
