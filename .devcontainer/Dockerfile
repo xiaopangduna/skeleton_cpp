@@ -13,10 +13,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     gdb \
     cmake \
-    ca-certificates    
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/* 
     
-RUN rm -rf /var/lib/apt/lists/*
-
 #     python3-pip \
 #     vim \
 #     net-tools \

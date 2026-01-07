@@ -44,6 +44,7 @@ show_help() {
 # 初始化变量
 LIBS_TO_BUILD=""
 PLATFORM=""
+FAILED_LIBS=""
 
 # 特殊处理 --help 参数
 # 检查是否有 --help 或 -h 参数
@@ -107,6 +108,18 @@ fi
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 PROJECT_ROOT=$(realpath "$SCRIPT_DIR/..")
 echo "项目根目录: $PROJECT_ROOT"
+
+# 配置 Git 安全目录以避免 "detected dubious ownership" 错误
+# 添加基本目录
+git config --global --add safe.directory "$PROJECT_ROOT/tmp"
+git config --global --add safe.directory "$PROJECT_ROOT/third_party"
+
+# 遍历并添加 tmp 目录下的所有 Git 仓库
+for git_dir in "$PROJECT_ROOT/tmp/"*/; do
+  if [ -d "$git_dir/.git" ]; then
+    git config --global --add safe.directory "$git_dir"
+  fi
+done
 
 # 第三方构建器目录
 THIRD_PARTY_BUILDERS_DIR="$SCRIPT_DIR/third_party_builders"
@@ -212,18 +225,19 @@ for lib in "${LIBS_ARRAY[@]}"; do
     
     # 调用具体的库构建脚本，传递所需参数
     # 调度脚本不管理具体编译逻辑，只负责传递参数
-    if ! source "$build_script" \
+    if ! bash "$build_script" \
         --platform "$PLATFORM" \
         --project-root "$PROJECT_ROOT" \
         --install-dir "$INSTALL_DIR" \
         --toolchain-file "$TOOLCHAIN_FILE"
     then
         echo "错误: 构建 $lib 失败"
-        echo "请检查构建日志以获取更多信息"
-        exit 1
+        echo "继续构建其他库..."
+        # 记录失败的库
+        FAILED_LIBS="${FAILED_LIBS} $lib"
+    else
+        echo "完成构建: $lib"
     fi
-    
-    echo "完成构建: $lib"
 done
 
 # 计算并显示总耗时
@@ -235,21 +249,46 @@ echo "===================================================================="
 echo "第三方库构建完成！"
 echo "===================================================================="
 echo "总耗时: ${DURATION}秒"
-echo "所有指定的库已成功构建并安装到:"
+
+# 检查是否有失败的库
+if [ -n "$FAILED_LIBS" ]; then
+    echo "部分库构建失败:"
+    for failed_lib in $FAILED_LIBS; do
+        echo "  - $failed_lib"
+    done
+    echo ""
+    echo "其余库已成功构建并安装到:"
+else
+    echo "所有指定的库已成功构建并安装到:"
+fi
+
 echo "$INSTALL_DIR"
 echo ""
 echo "各个库的安装位置:"
 for lib in "${LIBS_ARRAY[@]}"; do
     lib=$(echo "$lib" | xargs)
     if [ -n "$lib" ]; then
-        # 尝试查找安装目录（不同库可能有不同的安装结构）
-        if [ -d "${INSTALL_DIR}/${lib}" ]; then
-            echo "  - ${lib}: ${INSTALL_DIR}/${lib}"
-        elif [ -d "${INSTALL_DIR}/${lib}/${PLATFORM}" ]; then
-            echo "  - ${lib}: ${INSTALL_DIR}/${lib}/${PLATFORM}"
+        # 检查库是否在失败列表中
+        if [[ "$FAILED_LIBS" =~ (^| )$lib($| ) ]]; then
+            echo "  - ${lib}: 构建失败"
         else
-            echo "  - ${lib}: 已安装，具体位置请查看对应构建器的输出"
+            # 尝试查找安装目录（不同库可能有不同的安装结构）
+            if [ -d "${INSTALL_DIR}/${lib}" ]; then
+                echo "  - ${lib}: ${INSTALL_DIR}${lib}"
+            elif [ -d "${INSTALL_DIR}/${lib}/${PLATFORM}" ]; then
+                echo "  - ${lib}: ${INSTALL_DIR}/${lib}/${PLATFORM}"
+            else
+                echo "  - ${lib}: 已安装，具体位置请查看对应构建器的输出"
+            fi
         fi
     fi
 done
-echo "===================================================================="
+
+if [ -n "$FAILED_LIBS" ]; then
+    echo "===================================================================="
+    echo "构建完成，但存在失败的库。"
+    exit 1
+else
+    echo "===================================================================="
+    echo "所有库构建成功！"
+fi
