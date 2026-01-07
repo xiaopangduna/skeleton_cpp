@@ -12,15 +12,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     build-essential \
     gdb \
-    cmake   
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates 
+    cmake \
+    ca-certificates    
+    
 RUN rm -rf /var/lib/apt/lists/*
-#     build-essential \
-#     cmake \
+
 #     python3-pip \
 #     vim \
 #     net-tools \
 #     iputils-ping \
-#     && rm -rf /var/lib/apt/lists/*
+
 
