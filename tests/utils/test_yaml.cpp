@@ -31,9 +31,9 @@ protected:
 fs::path UtilsYamlTest::path_yaml = "examples/utils/test_yaml.yaml";
 YAML::Node UtilsYamlTest::test_data;
 
-TEST_F(UtilsYamlTest, LoadMatrixDouble)
+TEST_F(UtilsYamlTest, LoadMatrix2NDouble)
 {
-    cv::Mat matrix = loadMatrixFromYAML(UtilsYamlTest::test_data["matrix_double"], "double");
+    cv::Mat matrix = loadMatrix2NFromYAML<double>(UtilsYamlTest::test_data["matrix_double"]);
 
     ASSERT_EQ(matrix.rows, 2);
     ASSERT_EQ(matrix.cols, 3);
@@ -47,9 +47,9 @@ TEST_F(UtilsYamlTest, LoadMatrixDouble)
     EXPECT_DOUBLE_EQ(matrix.at<double>(1, 2), 6.6);
 }
 
-TEST_F(UtilsYamlTest, LoadMatrixInt)
+TEST_F(UtilsYamlTest, LoadMatrix2NInt)
 {
-    cv::Mat matrix = loadMatrixFromYAML(UtilsYamlTest::test_data["matrix_int"], "int");
+    cv::Mat matrix = loadMatrix2NFromYAML<int>(UtilsYamlTest::test_data["matrix_int"]);
 
     ASSERT_EQ(matrix.rows, 2);
     ASSERT_EQ(matrix.cols, 2);
