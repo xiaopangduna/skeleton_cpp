@@ -146,7 +146,8 @@ echo "[cnpy构建器] 构建依赖 zlib..."
 bash ${SCRIPT_DIR}/builder_zlib.sh \
     --platform ${PLATFORM} \
     --project-root ${PROJECT_ROOT} \
-    --install-dir ${INSTALL_DIR}
+    --install-dir ${INSTALL_DIR} \
+    --toolchain-file ${TOOLCHAIN_FILE}
 
 ZLIB_ROOT=${INSTALL_DIR}/zlib/${PLATFORM}
 
