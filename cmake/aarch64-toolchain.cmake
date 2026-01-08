@@ -7,6 +7,7 @@ message(STATUS "=== 正在使用aarch64交叉编译器 ===")
 #   binutils-aarch64-linux-gnu
 # xiaopangdun@lovelyboy:~/project/deploy_percept$ aarch64-linux-gnu-gcc -dumpmachine
 # aarch64-linux-gnu
+# 验证可执行文件是否为aarch64
 # file build/aarch64-release/tests/test_YoloV5DetectPostProcess
 
 # 设置目标系统
