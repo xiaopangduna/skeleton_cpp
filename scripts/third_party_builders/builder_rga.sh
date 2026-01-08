@@ -12,7 +12,7 @@ show_help() {
     echo "  获取和安装Rockchip RGA库 (Raster Graphic Acceleration)"
     echo ""
     echo "用法:"
-    echo "  $0 [选项]"
+    echo "bash $0 [选项]"
     echo ""
     echo "必需选项:"
     echo "  --platform <平台>          目标平台 (必须是 aarch64) [必需]"

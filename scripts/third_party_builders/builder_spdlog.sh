@@ -9,7 +9,7 @@ show_help() {
     echo "spdlog 构建器脚本"
     echo ""
     echo "用法:"
-    echo "  $0 [选项]"
+    echo "bash $0 [选项]"
     echo ""
     echo "必需选项:"
     echo "  --platform <平台>          目标平台 (aarch64, x86_64) [必需]"
