@@ -1,11 +1,11 @@
-
-third_party/
 datas/
 tmp/
+third_party/
 
 build/
-install/
 devel/
+install/
+
 
 # Prerequisites
 *.d
