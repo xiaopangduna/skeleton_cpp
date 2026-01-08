@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc-aarch64-linux-gnu \
     g++-aarch64-linux-gnu \
+    openssh-client \
     && rm -rf /var/lib/apt/lists/* 
     
 #     python3-pip \
