@@ -32,7 +32,7 @@ target_link_libraries(skeleton_cpp PUBLIC ${OpenCV_LIBS} spdlog::spdlog ${YAML_C
 target_include_directories(skeleton_cpp PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
-    ${YAML_CPP_INCLUDE_DIR}
+    $<BUILD_INTERFACE:${YAML_CPP_INCLUDE_DIR}/include>
 )
 
 # 安装规则

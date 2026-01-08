@@ -16,6 +16,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # 安装证书
     ca-certificates \   
     && rm -rf /var/lib/apt/lists/* 
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc-aarch64-linux-gnu \
+    g++-aarch64-linux-gnu \
+    && rm -rf /var/lib/apt/lists/* 
     
 #     python3-pip \
 #     vim \
