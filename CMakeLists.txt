@@ -20,7 +20,6 @@ include_directories(include)
 
 # 创建库目标
 add_library(skeleton_cpp STATIC
-    src/calculator/Calculator.cpp
     src/utils/logger_factory.cpp
     src/utils/yaml.cpp
 )

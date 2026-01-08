@@ -54,5 +54,4 @@ endfunction()
 
 # 使用函数创建测试
 enable_testing()
-create_test(calculator_test calculator_test.cpp)
 create_test(test_utils_yaml utils/test_yaml.cpp)
