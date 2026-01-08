@@ -1,75 +1,67 @@
 # skeleton_cpp
 
-一个基于 CMake 构建的 C++ 项目骨架，旨在提供模块化、可复用的 C++ 库开发模板。
+skeleton_cpp 是一个C++项目模板，使用CMake作为构建工具，支持多架构和多构建类型。
 
 ## 项目结构
 
 ```
-skeleton_cpp/
-├── CMakeLists.txt                 # 根CMakeLists.txt，配置整个项目
-├── README.md
-├── include/                       # 公共头文件
-│   └── skeleton_cpp/             # 项目名作为子目录
-│       └── calculator/
-│           └── Calculator.hpp    # Calculator类声明
-├── src/                           # 源代码
-│   ├── CMakeLists.txt            # 源码构建配置
-│   └── calculator/
-│       └── Calculator.cpp        # Calculator类实现
-├── tests/                         # 测试代码
-│   ├── CMakeLists.txt
-│   └── calculator_test.cpp       # Calculator类测试
-└── third_party/                   # 第三方依赖
+.
+├── apps           - 应用程序入口
+├── cmake          - CMake模块和工具链文件
+├── examples       - 示例代码
+├── include        - 头文件目录
+├── scripts        - 构建和测试脚本
+├── src            - 源代码目录
+├── tests          - 测试代码
+└── third_party    - 第三方依赖库
 ```
 
-## 编译步骤
+## 构建系统
 
-### 标准构建
+本项目使用CMakePresets.json预设配置，支持以下构建类型：
+
+- `x86_64-debug`: x86_64架构调试版本
+- `aarch64-release`: aarch64架构发布版本
+
+### 使用构建脚本
+
+项目提供了便捷的构建脚本：
 
 ```bash
-mkdir build && cd build
-cmake ..
-make
+# 使用默认预设 (x86_64-debug)
+bash scripts/build.sh
+
+# 指定预设
+bash scripts/build.sh x86_64-debug
+bash scripts/build.sh aarch64-release
 ```
 
-### 运行测试
+### 
+
+## 第三方库
+
+项目通过第三方库构建脚本管理依赖，位于 `scripts/third_party_builders/` 目录。
+
+## 测试
+
+项目使用gtest作为测试框架，测试代码位于 `tests/` 目录。
+
+运行测试：
 
 ```bash
-./tests/calculator_test
+bash scripts/test.sh
 ```
 
-或者使用CTest运行所有测试:
+## CMakePresets.json 说明
 
-```bash
-ctest
-```
+CMakePresets.json提供了标准化的构建配置，确保构建行为的一致性。详细配置如下：
 
-## 使用 find_package 的方式（推荐）
+- `x86_64-debug`: 
+  - 生成Debug版本
+  - 使用x86_64-toolchain.cmake工具链
+  - 二进制文件输出到build/x86_64-debug
 
-这是标准 CMake 生态中，使用包配置文件（package config）让其他项目「找到并使用你的库」。
-
-编译步骤
-在你的库项目中，配置并安装 package config 文件：
-
-```bash
-mkdir build && cd build
-cmake .. -DCMAKE_INSTALL_PREFIX=/usr/local
-make
-make install
-```
-
-这会把库文件、头文件和 cmake 配置文件安装到指定路径。
-
-## 其他项目使用
-
-```cmake
-list(APPEND CMAKE_PREFIX_PATH "/path/to/install")  # 告诉 CMake 去哪里找包
-
-find_package(skeleton_cpp REQUIRED)
-
-target_link_libraries(myExecutable PRIVATE skeleton_cpp::skeleton_cpp)
-```
-
-这样你的库 skeleton_cpp 就像 OpenCV、Boost 一样被其他模块方便调用，且自动处理依赖和头文件路径。
-
-bash scripts/third_party_builder.sh <platform> --libs <libraries>
+- `aarch64-release`:
+  - 生成Release版本
+  - 使用aarch64-toolchain.cmake工具链
+  - 二进制文件输出到build/aarch64-release
