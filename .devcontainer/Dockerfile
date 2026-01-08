@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     gdb \
     cmake \
-    ca-certificates \
+    # 安装证书
+    ca-certificates \   
     && rm -rf /var/lib/apt/lists/* 
     
 #     python3-pip \

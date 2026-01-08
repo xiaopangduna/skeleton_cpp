@@ -71,3 +71,5 @@ target_link_libraries(myExecutable PRIVATE skeleton_cpp::skeleton_cpp)
 ```
 
 这样你的库 skeleton_cpp 就像 OpenCV、Boost 一样被其他模块方便调用，且自动处理依赖和头文件路径。
+
+bash scripts/third_party_builder.sh <platform> --libs <libraries>

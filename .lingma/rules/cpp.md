@@ -8,6 +8,7 @@ trigger: manual
 2.**注释风格**
     - 使用 Doxygen 风格
 
+
 ### 测试规范
 1. **框架与工具**：
    - 测试框架：gtest
@@ -78,8 +79,30 @@ namespace ud_calib
 }
 ```
 
-2. **第三方库的管理**：
-示例：
+2. **第三方库的导入**：
+示例cmake文件
+```
+# FindOpenCVCustom.cmake - 自定义OpenCV库查找模块
+
+# set(OpenCV_DIR ${THIRD_PARTY_DIR}/opencv/${CMAKE_SYSTEM_PROCESSOR}/lib/cmake/opencv4)
+list(INSERT CMAKE_PREFIX_PATH 0  "${THIRD_PARTY_DIR}/opencv/${CMAKE_SYSTEM_PROCESSOR}")
+
+find_package(OpenCV REQUIRED)
+message(STATUS "==============================================================================")
+if(OpenCV_FOUND)
+    message(STATUS "OpenCV found successfully")
+    message(STATUS "OpenCV version: ${OpenCV_VERSION}")
+    message(STATUS "OpenCV include dirs: ${OpenCV_INCLUDE_DIRS}")
+    message(STATUS "OpenCV libraries: ${OpenCV_LIBS}")
+    message(STATUS "OpenCV config file: ${OpenCV_CONFIG}")
+else()
+    message(FATAL_ERROR "OpenCV not found")
+endif()
+message(STATUS "==============================================================================")
+```
+
+3. **第三方库的下载和编译脚本**：
+示例bash文件：
 ```
 #!/bin/bash
 # 第三方库构建器：GTest
@@ -283,3 +306,4 @@ fi
 
 echo "[GTest构建器] GTest构建完成"
 ```
+

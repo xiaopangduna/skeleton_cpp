@@ -25,8 +25,10 @@ show_help() {
     echo "  gtest      - Google Test 测试框架 (v1.14.0)"
     echo "  opencv     - OpenCV 计算机视觉库 (4.5.4)"
     echo "  rga        - Rockchip 2D 图形加速库"
-    echo "  rknpu      - Rockchip NPU 库 (仅 aarch64 平台)"
+    echo "  rknpu      - Rockchip NPU 库 (仅 aarch64 平台) - 需要手动准备库文件"
     echo "  spdlog     - 快速C++日志库 (v1.14.1)"
+    echo "  yaml-cpp   - YAML 数据解析库 (v0.8.0)"
+    echo "  zlib       - 数据压缩库 (v1.3.1)"
     echo ""
     echo "示例:"
     echo "  bash scripts/third_party_builder.sh aarch64 --libs all"
@@ -38,6 +40,7 @@ show_help() {
     echo "  2. 构建过程中会下载源代码到tmp目录，请确保有足够的磁盘空间"
     echo "  3. 构建的库将安装到third_party/<库名>/<平台>/目录"
     echo "  4. 具体每个库的平台支持由各个库的构建器脚本决定"
+    echo "  5. rknpu库需要手动准备预编译库文件到third_party/rknpu[1|2]/目录"
     echo ""
 }
 
@@ -206,7 +209,7 @@ for lib in "${LIBS_ARRAY[@]}"; do
     
     if [ ! -f "$build_script" ]; then
         echo "错误: 库 '$lib' 的构建脚本不存在: $build_script"
-        echo "支持的库: gtest, opencv, spdlog, rknpu, cnpy, rga"
+        echo "支持的库: gtest, opencv, spdlog, rknpu, cnpy, rga, yaml-cpp, zlib"
         echo "可用构建器:"
         ls -1 "$THIRD_PARTY_BUILDERS_DIR"/builder_*.sh 2>/dev/null | 
             sed 's|.*/builder_||;s|\.sh||' | 
