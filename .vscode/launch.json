@@ -10,5 +10,6 @@
       "cwd": "${workspaceFolder}",
       "MIMode": "gdb"
     }
+    
   ]
 }

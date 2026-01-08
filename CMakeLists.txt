@@ -3,6 +3,16 @@ cmake_minimum_required(VERSION 3.15)
 # 定义项目名称
 project(skeleton_cpp VERSION 0.1.0 LANGUAGES CXX)
 
+message(STATUS "CMake配置信息:")
+message(STATUS "  - CMAKE_TOOLCHAIN_FILE: ${CMAKE_TOOLCHAIN_FILE}")
+message(STATUS "  - CMAKE_SYSTEM_NAME: ${CMAKE_SYSTEM_NAME}")
+message(STATUS "  - CMAKE_SYSTEM_PROCESSOR: ${CMAKE_SYSTEM_PROCESSOR}")
+message(STATUS "  - CMAKE_C_COMPILER: ${CMAKE_C_COMPILER}")
+message(STATUS "  - CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER}")
+message(STATUS "  - CMAKE_SYSROOT: ${CMAKE_SYSROOT}")
+message(STATUS "  - CMAKE_CROSSCOMPILING: ${CMAKE_CROSSCOMPILING}")
+
+
 # 指定C++标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -25,13 +35,12 @@ add_library(skeleton_cpp STATIC
 )
 
 # 链接OpenCV库和spdlog到我们的库（使用PUBLIC以便链接skeleton_cpp的目标也能访问这些依赖）
-target_link_libraries(skeleton_cpp PUBLIC ${OpenCV_LIBS} spdlog::spdlog ${YAML_CPP_LIBRARIES})
+target_link_libraries(skeleton_cpp PUBLIC ${OpenCV_LIBS} spdlog::spdlog yaml-cpp::yaml-cpp)
 
 # 设置库的包含目录
 target_include_directories(skeleton_cpp PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
-    $<BUILD_INTERFACE:${YAML_CPP_INCLUDE_DIR}/include>
 )
 
 # 安装规则
