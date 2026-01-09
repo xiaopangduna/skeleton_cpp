@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.10)
-
 # 在测试目录中查找GTest
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
 
