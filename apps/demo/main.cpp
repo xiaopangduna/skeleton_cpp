@@ -29,8 +29,16 @@ int main(int argc, char* argv[]) {
     spdlog::get("console")->info("OpenCV version: {}", CV_VERSION);
     spdlog::get("file_logger")->info("OpenCV version: {}", CV_VERSION);
     
-    // 图像路径
+    // 图像路径 - 从命令行参数获取，或使用默认路径
     std::string imagePath = "/workspaces/skeleton_cpp/tmp/BDD100k_00001.jpg";
+    if (argc > 1) {
+        imagePath = argv[1];
+        spdlog::get("console")->info("使用命令行提供的图像路径: {}", imagePath);
+        spdlog::get("file_logger")->info("使用命令行提供的图像路径: {}", imagePath);
+    } else {
+        spdlog::get("console")->info("使用默认图像路径: {}", imagePath);
+        spdlog::get("file_logger")->info("使用默认图像路径: {}", imagePath);
+    }
     
     // 记录尝试读取图像的日志
     spdlog::get("console")->debug("尝试读取图像: {}", imagePath);

@@ -28,9 +28,6 @@ list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 # 包含第三方库查找模块
 include(FindThirdParty)
 
-# 添加包含目录
-include_directories(include)
-
 # 定义源文件列表
 set(SOURCES_FILE
     src/utils/logger_factory.cpp

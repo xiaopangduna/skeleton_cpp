@@ -2,75 +2,59 @@
 
 # 显示帮助信息
 show_help() {
-    echo "skeleton_cpp 项目构建脚本"
+    echo "skeleton_cpp 项目构建脚本 (已弃用)"
     echo ""
     echo "用法:"
-    echo " bash $0 [选项]"
+    echo " bash $0 --help | -h"
     echo ""
-    echo "可选选项:"
-    echo "  --preset <预设名>          使用指定的构建预设 (默认: x86_64-debug)"
-    echo "                            支持的预设有:"
-    echo "                              - x86_64-debug: x86_64架构调试版本"
-    echo "                              - aarch64-release: aarch64架构发布版本"
-    echo "  --help                    显示此帮助信息"
+    echo "警告:"
+    echo "  此脚本已弃用，因为当前CMake版本不支持 --preset 参数。"
+    echo "  请使用传统的CMake命令或升级到CMake 3.19+版本。"
     echo ""
-    echo "示例:"
-    echo "  # 使用默认预设 (x86_64-debug)"
-    echo "  bash $0"
+    echo "替代方法:"
+    echo "  # 对于 x86_64-debug 配置:"
+    echo "  mkdir -p build/x86_64-debug && cd build/x86_64-debug"
+    echo "  cmake -DCMAKE_BUILD_TYPE=Debug \\"
+    echo "        -DCMAKE_TOOLCHAIN_FILE=../../cmake/x86_64-toolchain.cmake \\"
+    echo "        -DCMAKE_INSTALL_PREFIX=../../install/x86_64 \\"
+    echo "        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \\"
+    echo "        -DENABLE_TESTS=ON \\"
+    echo "        ../.."
+    echo "  make -j"
     echo ""
-    echo "  # 使用指定预设"
-    echo "  bash $0 --preset x86_64-debug"
-    echo "  bash $0 --preset aarch64-release"
+    echo "  # 对于 aarch64-release 配置:"
+    echo "  mkdir -p build/aarch64-release && cd build/aarch64-release"
+    echo "  cmake -DCMAKE_BUILD_TYPE=Release \\"
+    echo "        -DCMAKE_TOOLCHAIN_FILE=../../cmake/aarch64-toolchain.cmake \\"
+    echo "        -DCMAKE_INSTALL_PREFIX=../../install/aarch64 \\"
+    echo "        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \\"
+    echo "        -DENABLE_TESTS=OFF \\"
+    echo "        ../.."
+    echo "  make -j"
+    echo ""
+    echo "可选参数:"
+    echo "  --help,-h                 显示此帮助信息"
     echo ""
     echo "注意:"
-    echo "  此脚本使用CMakePresets.json中的预设配置进行项目构建"
+    echo "  此脚本使用CMakePresets.json中的预设配置进行项目构建，但需要CMake 3.19+支持"
 }
 
-# 初始化变量
-PRESET=""
-
-# 解析参数
-while [[ $# -gt 0 ]]; do
-    case $1 in
-        --preset)
-            PRESET="$2"
-            shift 2
-            ;;
-        --help)
+# 特殊处理 --help 参数
+# 检查是否有 --help 或 -h 参数
+for arg in "$@"; do
+    case "$arg" in
+        --help|-h)
             show_help
             exit 0
-            ;;
-        *)
-            echo "错误: 未知参数: $1"
-            show_help
-            exit 1
             ;;
     esac
 done
 
-# 如果没有指定预设，则使用默认值
-if [ -z "$PRESET" ]; then
-    PRESET="x86_64-debug"
-    echo "未指定预设，使用默认: $PRESET"
-else
-    echo "使用指定预设: $PRESET"
-fi
-
-echo "使用CMakePresets.json构建项目"
-echo "==============================="
-
-echo "执行构建命令: cmake --preset=$PRESET && cmake --build --preset=$PRESET"
+echo "警告: 当前CMake版本不支持 --preset 参数，此脚本已弃用。"
+echo "当前CMake版本: $(cmake --version | head -n1)"
+echo "需要CMake 3.19或更高版本才能使用预设功能。"
 echo ""
-
-# 使用指定的预设配置项目
-cmake --preset=$PRESET
-
-# 构建项目
-cmake --build --preset=$PRESET
-
-echo ""
-echo "构建完成！"
-echo "==============================="
-echo "可用预设："
-echo "  x86_64-debug   - x86_64架构调试版本"
-echo "  aarch64-release - aarch64架构发布版本"
+echo "替代方法中提供的命令与 CMakePresets.json 中的配置完全匹配。"
+echo "请使用传统的CMake命令或升级CMake版本。"
+echo "运行 'bash $0 --help' 查看详细说明和替代方法。"
+exit 1
