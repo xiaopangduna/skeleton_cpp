@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
         // 创建控制台日志记录器
         auto console = spdlog::stdout_color_mt("console");
         // 创建文件日志记录器
-        auto file_logger = spdlog::basic_logger_mt("file_logger", "/workspaces/skeleton_cpp/tmp/app.log");
+        auto file_logger = spdlog::basic_logger_mt("file_logger", "./app.log");
         
         // 设置日志级别
         spdlog::set_level(spdlog::level::debug);
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
     image.convertTo(processedImage, -1, 1.2, 30); // alpha=1.2(对比度), beta=30(亮度)
     
     // 保存处理后的图像
-    std::string outputPath = "/workspaces/skeleton_cpp/tmp/processed_image.jpg";
+    std::string outputPath = "./processed_image.jpg";
     
     spdlog::get("console")->debug("尝试保存处理后的图像到: {}", outputPath);
     spdlog::get("file_logger")->debug("尝试保存处理后的图像到: {}", outputPath);
