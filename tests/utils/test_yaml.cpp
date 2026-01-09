@@ -5,7 +5,7 @@
 #include <opencv2/opencv.hpp>
 #include <yaml-cpp/yaml.h>
 
-#include "utils_tests/environment.hpp"
+#include "test_common/environment.hpp"
 #include "skeleton_cpp/utils/yaml.hpp"
 
 namespace fs = std::filesystem;
