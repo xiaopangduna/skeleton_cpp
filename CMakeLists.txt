@@ -29,13 +29,14 @@ include(FindThirdParty)
 # 添加包含目录
 include_directories(include)
 
-# 添加子目录
-
-# 创建库目标
-add_library(skeleton_cpp STATIC
+# 定义源文件列表
+set(SOURCES_FILE
     src/utils/logger_factory.cpp
     src/utils/yaml.cpp
 )
+
+# 创建库目标
+add_library(skeleton_cpp STATIC ${SOURCES_FILE})
 
 # 链接OpenCV库和spdlog到我们的库（使用PUBLIC以便链接skeleton_cpp的目标也能访问这些依赖）
 target_link_libraries(skeleton_cpp PUBLIC ${OpenCV_LIBS} spdlog::spdlog yaml-cpp::yaml-cpp)
@@ -45,6 +46,14 @@ target_include_directories(skeleton_cpp PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
+
+# # RGA
+# if(RGA_FOUND)
+#     target_sources(deploy_percept PRIVATE src/pre_process/image_pre_process_rga.cpp)
+#     target_link_libraries(deploy_percept PUBLIC ${LIBRGA})
+#     target_include_directories(deploy_percept PUBLIC $<BUILD_INTERFACE:${LIBRGA_INCLUDES}>)    
+#     target_compile_definitions(deploy_percept PUBLIC RGA_FOUND=1)
+# endif()
 
 # 安装规则
 install(TARGETS skeleton_cpp
