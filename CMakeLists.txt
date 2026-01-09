@@ -3,6 +3,8 @@ cmake_minimum_required(VERSION 3.15)
 # 定义项目名称
 project(skeleton_cpp VERSION 0.1.0 LANGUAGES CXX)
 
+option(ENABLE_TESTS "Enable unit tests" ON)
+
 # 指定C++标准
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -74,8 +76,19 @@ install(EXPORT skeleton_cppTargets
     DESTINATION lib/cmake/skeleton_cpp
 )
 
-# 添加子目录
+# 添加apps目录
 add_subdirectory(apps)
-# 启用测试
-enable_testing()
-add_subdirectory(tests)
+
+# 添加测试
+message(STATUS "==============================================================================")
+if(ENABLE_TESTS )
+    if(GTest_FOUND)
+        message(STATUS "测试已被启用，开始编译测试用例")
+        enable_testing()
+        add_subdirectory(tests)
+    else()
+        message(WARNING "测试已被启用，但未找到 Google Test，测试将被跳过")
+    endif()
+else()
+    message(STATUS "测试已被禁用")
+endif()
