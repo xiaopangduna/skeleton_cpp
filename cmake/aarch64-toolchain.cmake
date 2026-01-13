@@ -22,7 +22,7 @@ set(CMAKE_C_COMPILER "/usr/bin/aarch64-linux-gnu-gcc" CACHE FILEPATH "C compiler
 set(CMAKE_CXX_COMPILER "/usr/bin/aarch64-linux-gnu-g++" CACHE FILEPATH "C++ compiler" FORCE)
 
 # 目标根路径（Ubuntu multiarch）
-set(CMAKE_FIND_ROOT_PATH /usr/aarch64-linux-gnu)
+set(CMAKE_FIND_ROOT_PATH /usr/aarch64-linux-gnu ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 # 查找策略（关键）
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
