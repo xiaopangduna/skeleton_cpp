@@ -133,7 +133,7 @@ fi
 
 echo "[GTest构建器] 开始构建GTest库"
 echo "  平台: $PLATFORM"
-echo "  安装路径: $INSTALL_DIR/gtest/$PLATFORM"
+echo "  安装路径: $INSTALL_DIR/$PLATFORM/gtest"
 echo "  工具链文件: $TOOLCHAIN_FILE"
 
 # 下载和构建GTest
@@ -165,7 +165,7 @@ cd build_${PLATFORM}
 echo "[GTest构建器] 配置CMake..."
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/gtest/${PLATFORM} \
+    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${PLATFORM}/gtest \
     -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE}
 
 if [ $? -ne 0 ]; then
@@ -190,8 +190,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # 验证安装
-if [ -f "${INSTALL_DIR}/gtest/${PLATFORM}/lib/libgtest.a" ] || \
-   [ -f "${INSTALL_DIR}/gtest/${PLATFORM}/lib64/libgtest.a" ]; then
+if [ -f "${INSTALL_DIR}/${PLATFORM}/gtest/lib/libgtest.a" ] || \
+   [ -f "${INSTALL_DIR}/${PLATFORM}/gtest/lib64/libgtest.a" ]; then
     echo "[GTest构建器] ✓ GTest安装成功"
 else
     echo "[GTest构建器] ⚠ 警告: 找不到GTest库文件，但安装命令已成功执行"

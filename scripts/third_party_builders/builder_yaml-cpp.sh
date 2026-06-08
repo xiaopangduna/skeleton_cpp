@@ -23,7 +23,7 @@ show_help() {
     echo "yaml-cpp 信息:"
     echo "  yaml-cpp 是一个用于解析和生成YAML文件的C++库"
     echo "  源代码: https://github.com/jbeder/yaml-cpp.git"
-    echo "  安装位置: \$INSTALL_DIR/yaml-cpp/\$PLATFORM"
+    echo "  安装位置: \$INSTALL_DIR/\$PLATFORM/yaml-cpp"
     echo ""
     echo "示例:"
     echo "  # 在项目根目录下运行"
@@ -137,7 +137,7 @@ fi
 
 echo "[yaml-cpp构建器] 开始构建yaml-cpp库"
 echo "  平台: $PLATFORM"
-echo "  安装路径: $INSTALL_DIR/yaml-cpp/$PLATFORM"
+echo "  安装路径: $INSTALL_DIR/$PLATFORM/yaml-cpp"
 echo "  工具链文件: $TOOLCHAIN_FILE"
 
 # 下载和构建yaml-cpp
@@ -169,7 +169,7 @@ cd build_${PLATFORM}
 echo "[yaml-cpp构建器] 配置CMake..."
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/yaml-cpp/${PLATFORM} \
+    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${PLATFORM}/yaml-cpp \
     -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
     -DYAML_CPP_BUILD_TESTS=OFF \
     -DYAML_BUILD_SHARED_LIBS=OFF \
@@ -199,28 +199,28 @@ if [ $? -ne 0 ]; then
 fi
 
 # 验证安装
-if [ -f "${INSTALL_DIR}/yaml-cpp/${PLATFORM}/lib/libyaml-cpp.a" ] || \
-   [ -f "${INSTALL_DIR}/yaml-cpp/${PLATFORM}/lib64/libyaml-cpp.a" ]; then
+if [ -f "${INSTALL_DIR}/${PLATFORM}/yaml-cpp/lib/libyaml-cpp.a" ] || \
+   [ -f "${INSTALL_DIR}/${PLATFORM}/yaml-cpp/lib64/libyaml-cpp.a" ]; then
     echo "[yaml-cpp构建器] ✓ yaml-cpp静态库安装成功"
-    echo "[yaml-cpp构建器]   库文件位置: $(find "${INSTALL_DIR}/yaml-cpp/${PLATFORM}" -name "libyaml-cpp.a" -type f 2>/dev/null | head -1)"
-elif [ -f "${INSTALL_DIR}/yaml-cpp/${PLATFORM}/lib/libyaml-cpp.so" ] || \
-     [ -f "${INSTALL_DIR}/yaml-cpp/${PLATFORM}/lib64/libyaml-cpp.so" ]; then
+    echo "[yaml-cpp构建器]   库文件位置: $(find "${INSTALL_DIR}/${PLATFORM}/yaml-cpp" -name "libyaml-cpp.a" -type f 2>/dev/null | head -1)"
+elif [ -f "${INSTALL_DIR}/${PLATFORM}/yaml-cpp/lib/libyaml-cpp.so" ] || \
+     [ -f "${INSTALL_DIR}/${PLATFORM}/yaml-cpp/lib64/libyaml-cpp.so" ]; then
     echo "[yaml-cpp构建器] ✓ yaml-cpp动态库安装成功"
-    echo "[yaml-cpp构建器]   库文件位置: $(find "${INSTALL_DIR}/yaml-cpp/${PLATFORM}" -name "libyaml-cpp.so" -type f 2>/dev/null | head -1)"
-elif [ -f "${INSTALL_DIR}/yaml-cpp/${PLATFORM}/include/yaml-cpp/yaml.h" ]; then
+    echo "[yaml-cpp构建器]   库文件位置: $(find "${INSTALL_DIR}/${PLATFORM}/yaml-cpp" -name "libyaml-cpp.so" -type f 2>/dev/null | head -1)"
+elif [ -f "${INSTALL_DIR}/${PLATFORM}/yaml-cpp/include/yaml-cpp/yaml.h" ]; then
     echo "[yaml-cpp构建器] ✓ yaml-cpp头文件安装成功"
 else
     echo "[yaml-cpp构建器] ⚠ 警告: 找不到yaml-cpp库文件或头文件，但安装命令已成功执行"
-    echo "[yaml-cpp构建器]   请检查安装目录: ${INSTALL_DIR}/yaml-cpp/${PLATFORM}"
+    echo "[yaml-cpp构建器]   请检查安装目录: ${INSTALL_DIR}/${PLATFORM}/yaml-cpp"
     
     # 尝试查找文件
     echo "[yaml-cpp构建器]   正在搜索文件..."
-    find "${INSTALL_DIR}/yaml-cpp/${PLATFORM}" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | head -10
-    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/yaml-cpp/${PLATFORM}" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | wc -l) -gt 0 ]; then
+    find "${INSTALL_DIR}/${PLATFORM}/yaml-cpp" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | head -10
+    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/${PLATFORM}/yaml-cpp" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | wc -l) -gt 0 ]; then
         echo "[yaml-cpp构建器]   找到一些文件，安装可能成功"
     else
         echo "[yaml-cpp构建器]   未找到任何文件，安装可能失败"
     fi
 fi
 
-echo "[yaml-cpp构建器] yaml-cpp编译完成，已安装到 ${INSTALL_DIR}/yaml-cpp/${PLATFORM}"
+echo "[yaml-cpp构建器] yaml-cpp编译完成，已安装到 ${INSTALL_DIR}/${PLATFORM}/yaml-cpp"

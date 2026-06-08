@@ -25,7 +25,7 @@ show_help() {
     echo "cnpy 信息:"
     echo "  cnpy 是一个用于读取和写入 NumPy .npy 和 .npz 文件的 C++ 库"
     echo "  源代码: https://github.com/rogersce/cnpy.git"
-    echo "  安装位置: \$INSTALL_DIR/cnpy/\$PLATFORM"
+    echo "  安装位置: \$INSTALL_DIR/\$PLATFORM/cnpy"
     echo ""
     echo "示例:"
     echo "  # 在项目根目录下运行"
@@ -139,7 +139,7 @@ fi
 
 echo "[cnpy构建器] 开始构建cnpy库"
 echo "  平台: $PLATFORM"
-echo "  安装路径: $INSTALL_DIR/cnpy/$PLATFORM"
+echo "  安装路径: $INSTALL_DIR/$PLATFORM/cnpy"
 echo "  工具链文件: $TOOLCHAIN_FILE"
 
 echo "[cnpy构建器] 构建依赖 zlib..."
@@ -149,7 +149,7 @@ bash ${SCRIPT_DIR}/builder_zlib.sh \
     --install-dir ${INSTALL_DIR} \
     --toolchain-file ${TOOLCHAIN_FILE}
 
-ZLIB_ROOT=${INSTALL_DIR}/zlib/${PLATFORM}
+ZLIB_ROOT=${INSTALL_DIR}/${PLATFORM}/zlib
 
 # 下载和构建cnpy
 mkdir -p ${PROJECT_ROOT}/tmp
@@ -181,7 +181,7 @@ cd build_${PLATFORM}
 echo "[cnpy构建器] 配置cmake..."
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/cnpy/${PLATFORM} \
+    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${PLATFORM}/cnpy \
     -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
     -DBUILD_SHARED_LIBS=OFF \
     -DZLIB_ROOT=${ZLIB_ROOT} \
@@ -214,24 +214,24 @@ if [ $? -ne 0 ]; then
 fi
 
 # 验证安装
-if [ -f "${INSTALL_DIR}/cnpy/${PLATFORM}/lib/libcnpy.a" ] || \
-   [ -f "${INSTALL_DIR}/cnpy/${PLATFORM}/lib64/libcnpy.a" ]; then
+if [ -f "${INSTALL_DIR}/${PLATFORM}/cnpy/lib/libcnpy.a" ] || \
+   [ -f "${INSTALL_DIR}/${PLATFORM}/cnpy/lib64/libcnpy.a" ]; then
     echo "[cnpy构建器] ✓ cnpy静态库安装成功"
-    echo "[cnpy构建器]   库文件位置: $(find "${INSTALL_DIR}/cnpy/${PLATFORM}" -name "*.a" -type f 2>/dev/null | head -1)"
-elif [ -f "${INSTALL_DIR}/cnpy/${PLATFORM}/lib/libcnpy.so" ] || \
-     [ -f "${INSTALL_DIR}/cnpy/${PLATFORM}/lib64/libcnpy.so" ]; then
+    echo "[cnpy构建器]   库文件位置: $(find "${INSTALL_DIR}/${PLATFORM}/cnpy" -name "*.a" -type f 2>/dev/null | head -1)"
+elif [ -f "${INSTALL_DIR}/${PLATFORM}/cnpy/lib/libcnpy.so" ] || \
+     [ -f "${INSTALL_DIR}/${PLATFORM}/cnpy/lib64/libcnpy.so" ]; then
     echo "[cnpy构建器] ✓ cnpy动态库安装成功"
-    echo "[cnpy构建器]   库文件位置: $(find "${INSTALL_DIR}/cnpy/${PLATFORM}" -name "*.so" -type f 2>/dev/null | head -1)"
-elif [ -f "${INSTALL_DIR}/cnpy/${PLATFORM}/include/cnpy.h" ]; then
+    echo "[cnpy构建器]   库文件位置: $(find "${INSTALL_DIR}/${PLATFORM}/cnpy" -name "*.so" -type f 2>/dev/null | head -1)"
+elif [ -f "${INSTALL_DIR}/${PLATFORM}/cnpy/include/cnpy.h" ]; then
     echo "[cnpy构建器] ✓ cnpy头文件安装成功"
 else
     echo "[cnpy构建器] ⚠ 警告: 找不到cnpy库文件或头文件，但安装命令已成功执行"
-    echo "[cnpy构建器]   请检查安装目录: ${INSTALL_DIR}/cnpy/${PLATFORM}"
+    echo "[cnpy构建器]   请检查安装目录: ${INSTALL_DIR}/${PLATFORM}/cnpy"
     
     # 尝试查找文件
     echo "[cnpy构建器]   正在搜索文件..."
-    find "${INSTALL_DIR}/cnpy/${PLATFORM}" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | head -10
-    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/cnpy/${PLATFORM}" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | wc -l) -gt 0 ]; then
+    find "${INSTALL_DIR}/${PLATFORM}/cnpy" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | head -10
+    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/${PLATFORM}/cnpy" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | wc -l) -gt 0 ]; then
         echo "[cnpy构建器]   找到一些文件，安装可能成功"
     else
         echo "[cnpy构建器]   未找到任何文件，安装可能失败"

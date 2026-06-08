@@ -135,7 +135,7 @@ fi
 
 echo "[OpenCV构建器] 开始构建OpenCV库"
 echo "  平台: $PLATFORM"
-echo "  安装路径: $INSTALL_DIR/opencv/$PLATFORM"
+echo "  安装路径: $INSTALL_DIR/$PLATFORM/opencv"
 echo "  工具链文件: $TOOLCHAIN_FILE"
 
 # 下载和构建OpenCV
@@ -181,7 +181,7 @@ echo "[OpenCV构建器] 下载缓存目录: $OPENCV_CACHE_DIR"
 
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/opencv/${PLATFORM} \
+    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${PLATFORM}/opencv \
     -DOPENCV_DOWNLOAD_PATH=${OPENCV_CACHE_DIR} \
     -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE} \
     -DBUILD_SHARED_LIBS=OFF \
@@ -212,20 +212,20 @@ if [ $? -ne 0 ]; then
 fi
 
 # 验证安装
-if [ -f "${INSTALL_DIR}/opencv/${PLATFORM}/lib/libopencv_core.a" ] || \
-   [ -f "${INSTALL_DIR}/opencv/${PLATFORM}/lib64/libopencv_core.a" ]; then
+if [ -f "${INSTALL_DIR}/${PLATFORM}/opencv/lib/libopencv_core.a" ] || \
+   [ -f "${INSTALL_DIR}/${PLATFORM}/opencv/lib64/libopencv_core.a" ]; then
     echo "[OpenCV构建器] ✓ OpenCV静态库安装成功"
-elif [ -f "${INSTALL_DIR}/opencv/${PLATFORM}/lib/libopencv_core.so" ] || \
-     [ -f "${INSTALL_DIR}/opencv/${PLATFORM}/lib64/libopencv_core.so" ]; then
+elif [ -f "${INSTALL_DIR}/${PLATFORM}/opencv/lib/libopencv_core.so" ] || \
+     [ -f "${INSTALL_DIR}/${PLATFORM}/opencv/lib64/libopencv_core.so" ]; then
     echo "[OpenCV构建器] ✓ OpenCV动态库安装成功"
 else
     echo "[OpenCV构建器] ⚠ 警告: 找不到OpenCV核心库文件，但安装命令已成功执行"
-    echo "[OpenCV构建器]   请检查安装目录: ${INSTALL_DIR}/opencv/${PLATFORM}"
+    echo "[OpenCV构建器]   请检查安装目录: ${INSTALL_DIR}/${PLATFORM}/opencv"
     
     # 尝试查找库文件
     echo "[OpenCV构建器]   正在搜索库文件..."
-    find "${INSTALL_DIR}/opencv/${PLATFORM}" -name "*.a" -o -name "*.so" 2>/dev/null | head -10
-    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/opencv/${PLATFORM}" -name "*.a" -o -name "*.so" 2>/dev/null | wc -l) -gt 0 ]; then
+    find "${INSTALL_DIR}/${PLATFORM}/opencv" -name "*.a" -o -name "*.so" 2>/dev/null | head -10
+    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/${PLATFORM}/opencv" -name "*.a" -o -name "*.so" 2>/dev/null | wc -l) -gt 0 ]; then
         echo "[OpenCV构建器]   找到一些库文件，安装可能成功"
     else
         echo "[OpenCV构建器]   未找到任何库文件，安装可能失败"

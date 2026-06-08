@@ -172,32 +172,33 @@ fi
 
 cd ${PROJECT_ROOT}/tmp/rknn_model_zoo
 echo "[RKNPU构建器] 开始拷贝RKNPU库文件到third_party目录..."
+mkdir -p ${INSTALL_DIR}/${PLATFORM}
 
 # 拷贝rknpu2目录
 if [ -d "3rdparty/rknpu2" ]; then
     echo "[RKNPU构建器] 发现rknpu2目录，正在拷贝..."
     
     # 如果目标目录已存在，则先删除再拷贝
-    if [ -d "${INSTALL_DIR}/rknpu2" ]; then
-        echo "[RKNPU构建器] 删除已存在的${INSTALL_DIR}/rknpu2目录..."
-        rm -rf ${INSTALL_DIR}/rknpu2
+    if [ -d "${INSTALL_DIR}/${PLATFORM}/rknpu2" ]; then
+        echo "[RKNPU构建器] 删除已存在的${INSTALL_DIR}/${PLATFORM}/rknpu2目录..."
+        rm -rf ${INSTALL_DIR}/${PLATFORM}/rknpu2
     fi
     
-    echo "[RKNPU构建器] 拷贝rknpu2目录到${INSTALL_DIR}/rknpu2..."
-    cp -r 3rdparty/rknpu2 ${INSTALL_DIR}/
+    echo "[RKNPU构建器] 拷贝rknpu2目录到${INSTALL_DIR}/${PLATFORM}/rknpu2..."
+    cp -r 3rdparty/rknpu2 ${INSTALL_DIR}/${PLATFORM}/
     if [ $? -ne 0 ]; then
         echo "[RKNPU构建器] 错误: 拷贝rknpu2目录失败"
         exit 1
     fi
     
     # 验证拷贝
-    if [ -d "${INSTALL_DIR}/rknpu2" ]; then
+    if [ -d "${INSTALL_DIR}/${PLATFORM}/rknpu2" ]; then
         echo "[RKNPU构建器] ✓ rknpu2目录拷贝成功"
-        echo "[RKNPU构建器]   rknpu2库文件位置: ${INSTALL_DIR}/rknpu2"
+        echo "[RKNPU构建器]   rknpu2库文件位置: ${INSTALL_DIR}/${PLATFORM}/rknpu2"
         
         # 检查rknpu2目录结构
         echo "[RKNPU构建器]   rknpu2目录结构:"
-        find "${INSTALL_DIR}/rknpu2" -type f -name "*.so" -o -name "*.h" | head -10 | while read file; do
+        find "${INSTALL_DIR}/${PLATFORM}/rknpu2" -type f -name "*.so" -o -name "*.h" | head -10 | while read file; do
             echo "[RKNPU构建器]     - $(basename "$file")"
         done
     else
@@ -213,26 +214,26 @@ if [ -d "3rdparty/rknpu1" ]; then
     echo "[RKNPU构建器] 发现rknpu1目录，正在拷贝..."
     
     # 如果目标目录已存在，则先删除再拷贝
-    if [ -d "${INSTALL_DIR}/rknpu1" ]; then
-        echo "[RKNPU构建器] 删除已存在的${INSTALL_DIR}/rknpu1目录..."
-        rm -rf ${INSTALL_DIR}/rknpu1
+    if [ -d "${INSTALL_DIR}/${PLATFORM}/rknpu1" ]; then
+        echo "[RKNPU构建器] 删除已存在的${INSTALL_DIR}/${PLATFORM}/rknpu1目录..."
+        rm -rf ${INSTALL_DIR}/${PLATFORM}/rknpu1
     fi
     
-    echo "[RKNPU构建器] 拷贝rknpu1目录到${INSTALL_DIR}/rknpu1..."
-    cp -r 3rdparty/rknpu1 ${INSTALL_DIR}/
+    echo "[RKNPU构建器] 拷贝rknpu1目录到${INSTALL_DIR}/${PLATFORM}/rknpu1..."
+    cp -r 3rdparty/rknpu1 ${INSTALL_DIR}/${PLATFORM}/
     if [ $? -ne 0 ]; then
         echo "[RKNPU构建器] 错误: 拷贝rknpu1目录失败"
         exit 1
     fi
     
     # 验证拷贝
-    if [ -d "${INSTALL_DIR}/rknpu1" ]; then
+    if [ -d "${INSTALL_DIR}/${PLATFORM}/rknpu1" ]; then
         echo "[RKNPU构建器] ✓ rknpu1目录拷贝成功"
-        echo "[RKNPU构建器]   rknpu1库文件位置: ${INSTALL_DIR}/rknpu1"
+        echo "[RKNPU构建器]   rknpu1库文件位置: ${INSTALL_DIR}/${PLATFORM}/rknpu1"
         
         # 检查rknpu1目录结构
         echo "[RKNPU构建器]   rknpu1目录结构:"
-        find "${INSTALL_DIR}/rknpu1" -type f -name "*.so" -o -name "*.h" | head -10 | while read file; do
+        find "${INSTALL_DIR}/${PLATFORM}/rknpu1" -type f -name "*.so" -o -name "*.h" | head -10 | while read file; do
             echo "[RKNPU构建器]     - $(basename "$file")"
         done
     else
@@ -244,7 +245,7 @@ else
 fi
 
 # 检查是否至少有一个目录被成功拷贝
-if [ ! -d "${INSTALL_DIR}/rknpu2" ] && [ ! -d "${INSTALL_DIR}/rknpu1" ]; then
+if [ ! -d "${INSTALL_DIR}/${PLATFORM}/rknpu2" ] && [ ! -d "${INSTALL_DIR}/${PLATFORM}/rknpu1" ]; then
     echo "[RKNPU构建器] 错误: 未找到任何RKNPU库目录"
     echo "[RKNPU构建器]   请检查rknn_model_zoo仓库是否包含rknpu1或rknpu2目录"
     exit 1
@@ -252,11 +253,11 @@ fi
 
 echo "[RKNPU构建器] RKNPU库处理完成"
 echo "[RKNPU构建器] 成功安装到:"
-if [ -d "${INSTALL_DIR}/rknpu2" ]; then
-    echo "[RKNPU构建器]   - rknpu2: ${INSTALL_DIR}/rknpu2"
+if [ -d "${INSTALL_DIR}/${PLATFORM}/rknpu2" ]; then
+    echo "[RKNPU构建器]   - rknpu2: ${INSTALL_DIR}/${PLATFORM}/rknpu2"
 fi
-if [ -d "${INSTALL_DIR}/rknpu1" ]; then
-    echo "[RKNPU构建器]   - rknpu1: ${INSTALL_DIR}/rknpu1"
+if [ -d "${INSTALL_DIR}/${PLATFORM}/rknpu1" ]; then
+    echo "[RKNPU构建器]   - rknpu1: ${INSTALL_DIR}/${PLATFORM}/rknpu1"
 fi
 echo "[RKNPU构建器] 注意: RKNPU是预编译库，无需编译，直接使用即可"
 echo "[RKNPU构建器]       兼容性需根据具体平台验证"

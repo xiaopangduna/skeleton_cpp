@@ -133,7 +133,7 @@ fi
 
 echo "[spdlog构建器] 开始构建spdlog库"
 echo "  平台: $PLATFORM"
-echo "  安装路径: $INSTALL_DIR/spdlog/$PLATFORM"
+echo "  安装路径: $INSTALL_DIR/$PLATFORM/spdlog"
 echo "  工具链文件: $TOOLCHAIN_FILE"
 
 # 下载和构建spdlog
@@ -187,7 +187,7 @@ cd build_${PLATFORM}
 echo "[spdlog构建器] 配置CMake..."
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/spdlog/${PLATFORM} \
+    -DCMAKE_INSTALL_PREFIX=${INSTALL_DIR}/${PLATFORM}/spdlog \
     -DCMAKE_TOOLCHAIN_FILE=${TOOLCHAIN_FILE}
 
 if [ $? -ne 0 ]; then
@@ -214,21 +214,21 @@ if [ $? -ne 0 ]; then
 fi
 
 # 验证安装
-if [ -f "${INSTALL_DIR}/spdlog/${PLATFORM}/lib/libspdlog.a" ] || \
-   [ -f "${INSTALL_DIR}/spdlog/${PLATFORM}/lib64/libspdlog.a" ] || \
-   [ -f "${INSTALL_DIR}/spdlog/${PLATFORM}/lib/libspdlog.so" ] || \
-   [ -f "${INSTALL_DIR}/spdlog/${PLATFORM}/lib64/libspdlog.so" ]; then
+if [ -f "${INSTALL_DIR}/${PLATFORM}/spdlog/lib/libspdlog.a" ] || \
+   [ -f "${INSTALL_DIR}/${PLATFORM}/spdlog/lib64/libspdlog.a" ] || \
+   [ -f "${INSTALL_DIR}/${PLATFORM}/spdlog/lib/libspdlog.so" ] || \
+   [ -f "${INSTALL_DIR}/${PLATFORM}/spdlog/lib64/libspdlog.so" ]; then
     echo "[spdlog构建器] ✓ spdlog库文件安装成功"
-elif [ -f "${INSTALL_DIR}/spdlog/${PLATFORM}/include/spdlog/spdlog.h" ]; then
+elif [ -f "${INSTALL_DIR}/${PLATFORM}/spdlog/include/spdlog/spdlog.h" ]; then
     echo "[spdlog构建器] ✓ spdlog头文件安装成功（spdlog是header-only库，可能不生成库文件）"
 else
     echo "[spdlog构建器] ⚠ 警告: 找不到spdlog库文件或头文件，但安装命令已成功执行"
-    echo "[spdlog构建器]   请检查安装目录: ${INSTALL_DIR}/spdlog/${PLATFORM}"
+    echo "[spdlog构建器]   请检查安装目录: ${INSTALL_DIR}/${PLATFORM}/spdlog"
     
     # 尝试查找文件
     echo "[spdlog构建器]   正在搜索文件..."
-    find "${INSTALL_DIR}/spdlog/${PLATFORM}" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | head -10
-    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/spdlog/${PLATFORM}" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | wc -l) -gt 0 ]; then
+    find "${INSTALL_DIR}/${PLATFORM}/spdlog" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | head -10
+    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/${PLATFORM}/spdlog" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | wc -l) -gt 0 ]; then
         echo "[spdlog构建器]   找到一些文件，安装可能成功"
     else
         echo "[spdlog构建器]   未找到任何文件，安装可能失败"

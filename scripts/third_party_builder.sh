@@ -48,9 +48,9 @@ show_help() {
     echo "注意:"
     echo "  1. 可以在任意目录下运行，使用--project-root指定项目根目录"
     echo "  2. 构建过程中会下载源代码到tmp目录，请确保有足够的磁盘空间"
-    echo "  3. 构建的库将安装到third_party/<库名>/<平台>/目录"
+    echo "  3. 构建的库将安装到third_party/<平台>/<库名>/目录"
     echo "  4. 具体每个库的平台支持由各个库的构建器脚本决定"
-    echo "  5. rknpu库需要手动准备预编译库文件到third_party/rknpu[1|2]/目录"
+    echo "  5. rknpu库需要手动准备预编译库文件到third_party/<平台>/rknpu[1|2]/目录"
     echo ""
 }
 
@@ -300,10 +300,10 @@ for lib in "${LIBS_ARRAY[@]}"; do
             echo "  - ${lib}: 构建失败"
         else
             # 尝试查找安装目录（不同库可能有不同的安装结构）
-            if [ -d "${INSTALL_DIR}/${lib}" ]; then
+            if [ -d "${INSTALL_DIR}/${PLATFORM}/${lib}" ]; then
+                echo "  - ${lib}: ${INSTALL_DIR}/${PLATFORM}/${lib}"
+            elif [ -d "${INSTALL_DIR}/${lib}" ]; then
                 echo "  - ${lib}: ${INSTALL_DIR}${lib}"
-            elif [ -d "${INSTALL_DIR}/${lib}/${PLATFORM}" ]; then
-                echo "  - ${lib}: ${INSTALL_DIR}/${lib}/${PLATFORM}"
             else
                 echo "  - ${lib}: 已安装，具体位置请查看对应构建器的输出"
             fi

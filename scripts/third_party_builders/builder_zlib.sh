@@ -130,7 +130,7 @@ export RANLIB=${CROSS_COMPILE_PREFIX}-ranlib
 
 echo "[zlib构建器] 开始构建zlib库"
 echo "  平台: $PLATFORM"
-echo "  安装路径: $INSTALL_DIR/zlib/$PLATFORM"
+echo "  安装路径: $INSTALL_DIR/$PLATFORM/zlib"
 echo "  工具链文件: $TOOLCHAIN_FILE"
 
 # 检查交叉编译工具链是否可用
@@ -168,12 +168,12 @@ mkdir -p build_${PLATFORM}
 cd build_${PLATFORM}
 
 echo "[zlib构建器] 配置zlib..."
-echo "[zlib构建器] 安装前缀: ${INSTALL_DIR}/zlib/${PLATFORM}"
+echo "[zlib构建器] 安装前缀: ${INSTALL_DIR}/${PLATFORM}/zlib"
 echo "[zlib构建器] 构建静态库: 是"
 
 # 配置zlib
 ../configure \
-    --prefix=${INSTALL_DIR}/zlib/${PLATFORM} \
+    --prefix=${INSTALL_DIR}/${PLATFORM}/zlib \
     --static
 
 if [ $? -ne 0 ]; then
@@ -200,23 +200,23 @@ if [ $? -ne 0 ]; then
 fi
 
 # 验证安装
-if [ -f "${INSTALL_DIR}/zlib/${PLATFORM}/lib/libz.a" ]; then
+if [ -f "${INSTALL_DIR}/${PLATFORM}/zlib/lib/libz.a" ]; then
     echo "[zlib构建器] ✓ zlib静态库安装成功"
-    echo "[zlib构建器]   库文件位置: ${INSTALL_DIR}/zlib/${PLATFORM}/lib/libz.a"
+    echo "[zlib构建器]   库文件位置: ${INSTALL_DIR}/${PLATFORM}/zlib/lib/libz.a"
     # 额外验证：检查头文件是否存在
-    if [ -f "${INSTALL_DIR}/zlib/${PLATFORM}/include/zlib.h" ]; then
+    if [ -f "${INSTALL_DIR}/${PLATFORM}/zlib/include/zlib.h" ]; then
         echo "[zlib构建器] ✓ zlib头文件安装成功"
     else
         echo "[zlib构建器] ⚠ 警告: 找不到zlib头文件"
     fi
 else
     echo "[zlib构建器] ⚠ 警告: 找不到zlib库文件，但安装命令已成功执行"
-    echo "[zlib构建器]   请检查安装目录: ${INSTALL_DIR}/zlib/${PLATFORM}"
+    echo "[zlib构建器]   请检查安装目录: ${INSTALL_DIR}/${PLATFORM}/zlib"
     
     # 尝试查找文件
     echo "[zlib构建器]   正在搜索文件..."
-    find "${INSTALL_DIR}/zlib/${PLATFORM}" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | head -10
-    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/zlib/${PLATFORM}" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | wc -l) -gt 0 ]; then
+    find "${INSTALL_DIR}/${PLATFORM}/zlib" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | head -10
+    if [ $? -eq 0 ] && [ $(find "${INSTALL_DIR}/${PLATFORM}/zlib" -type f \( -name "*.a" -o -name "*.so" -o -name "*.h" \) 2>/dev/null | wc -l) -gt 0 ]; then
         echo "[zlib构建器]   找到一些文件，安装可能成功"
     else
         echo "[zlib构建器]   未找到任何文件，安装可能失败"

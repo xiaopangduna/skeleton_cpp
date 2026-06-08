@@ -1,7 +1,7 @@
 # FindOpenCVCustom.cmake - 自定义OpenCV库查找模块
 
-# set(OpenCV_DIR ${THIRD_PARTY_DIR}/opencv/${CMAKE_SYSTEM_PROCESSOR}/lib/cmake/opencv4)
-list(INSERT CMAKE_PREFIX_PATH 0  "${THIRD_PARTY_DIR}/opencv/${CMAKE_SYSTEM_PROCESSOR}")
+# set(OpenCV_DIR ${THIRD_PARTY_PLATFORM_DIR}/opencv/lib/cmake/opencv4)
+list(INSERT CMAKE_PREFIX_PATH 0  "${THIRD_PARTY_PLATFORM_DIR}/opencv")
 
 find_package(OpenCV REQUIRED)
 message(STATUS "==============================================================================")

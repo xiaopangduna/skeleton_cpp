@@ -112,7 +112,7 @@ fi
 
 echo "[RGA构建器] 开始处理RGA库"
 echo "  平台: $PLATFORM"
-echo "  安装路径: $INSTALL_DIR/rga"
+echo "  安装路径: $INSTALL_DIR/$PLATFORM/rga"
 
 # 创建临时目录和安装目录
 mkdir -p ${PROJECT_ROOT}/tmp
@@ -137,45 +137,47 @@ fi
 cd ${PROJECT_ROOT}/tmp/librga
 echo "[RGA构建器] 开始拷贝librga库文件到third_party目录..."
 
+mkdir -p ${INSTALL_DIR}/${PLATFORM}
+
 # 如果目标目录已存在，则先删除再拷贝
-if [ -d "${INSTALL_DIR}/rga" ]; then
-    echo "[RGA构建器] 删除已存在的${INSTALL_DIR}/rga目录..."
-    rm -rf ${INSTALL_DIR}/rga
+if [ -d "${INSTALL_DIR}/${PLATFORM}/rga" ]; then
+    echo "[RGA构建器] 删除已存在的${INSTALL_DIR}/${PLATFORM}/rga目录..."
+    rm -rf ${INSTALL_DIR}/${PLATFORM}/rga
 fi
 
-# 拷贝整个librga目录到third_party下的rga目录
-echo "[RGA构建器] 拷贝librga目录到${INSTALL_DIR}/rga..."
-cp -r . ${INSTALL_DIR}/rga/
+# 拷贝整个librga目录到third_party/<平台>/rga目录
+echo "[RGA构建器] 拷贝librga目录到${INSTALL_DIR}/${PLATFORM}/rga..."
+cp -r . ${INSTALL_DIR}/${PLATFORM}/rga/
 if [ $? -ne 0 ]; then
     echo "[RGA构建器] 错误: 拷贝librga目录失败"
     exit 1
 fi
 
 # 验证拷贝
-if [ -d "${INSTALL_DIR}/rga" ]; then
+if [ -d "${INSTALL_DIR}/${PLATFORM}/rga" ]; then
     echo "[RGA构建器] ✓ librga目录拷贝成功"
-    echo "[RGA构建器]   RGA库文件位置: ${INSTALL_DIR}/rga"
+    echo "[RGA构建器]   RGA库文件位置: ${INSTALL_DIR}/${PLATFORM}/rga"
     
     # 检查RGA目录结构
     echo "[RGA构建器]   RGA目录结构概览:"
     
     # 查找可能的库文件
-    find "${INSTALL_DIR}/rga" -type f \( -name "*.so" -o -name "*.a" -o -name "*.h" \) 2>/dev/null | head -10 | while read file; do
+    find "${INSTALL_DIR}/${PLATFORM}/rga" -type f \( -name "*.so" -o -name "*.a" -o -name "*.h" \) 2>/dev/null | head -10 | while read file; do
         echo "[RGA构建器]     - $(basename "$file")"
     done
     
     # 检查是否有CMakeLists.txt或其他构建文件
-    if [ -f "${INSTALL_DIR}/rga/CMakeLists.txt" ]; then
+    if [ -f "${INSTALL_DIR}/${PLATFORM}/rga/CMakeLists.txt" ]; then
         echo "[RGA构建器]   ✓ 找到CMakeLists.txt文件，可能需要自行编译"
     fi
     
     # 检查是否有include目录
-    if [ -d "${INSTALL_DIR}/rga/include" ]; then
+    if [ -d "${INSTALL_DIR}/${PLATFORM}/rga/include" ]; then
         echo "[RGA构建器]   ✓ 找到include目录"
     fi
     
     # 检查是否有lib目录
-    if [ -d "${INSTALL_DIR}/rga/lib" ]; then
+    if [ -d "${INSTALL_DIR}/${PLATFORM}/rga/lib" ]; then
         echo "[RGA构建器]   ✓ 找到lib目录"
     fi
 else
@@ -184,6 +186,6 @@ else
 fi
 
 echo "[RGA构建器] RGA库处理完成"
-echo "[RGA构建器] 成功安装到: ${INSTALL_DIR}/rga"
+echo "[RGA构建器] 成功安装到: ${INSTALL_DIR}/${PLATFORM}/rga"
 echo "[RGA构建器] 注意: RGA库可能需要根据目标平台进行编译"
 echo "[RGA构建器]       当前只拷贝了源代码，请根据需要自行编译"
